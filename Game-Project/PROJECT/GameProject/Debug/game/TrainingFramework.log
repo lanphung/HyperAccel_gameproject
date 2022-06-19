@@ -1,0 +1,10 @@
+﻿  StateManager.cpp
+d:\game-project\project\gameproject\game.h(37): warning C4150: deletion of pointer to incomplete type 'StateManager'; no destructor called
+  d:\game-project\project\gameproject\game.h(16): note: see declaration of 'StateManager'
+d:\game-project\project\gameproject\statemanager.cpp(86): warning C4244: 'argument': conversion from 'double' to 'DWORD', possible loss of data
+d:\game-project\project\gameproject\statemanager.cpp(70): warning C4715: 'GS_GAMEPLAY::handleInput': not all control paths return a value
+d:\game-project\project\gameproject\statemanager.cpp(255): warning C4715: 'GS_OPTION::handleInput': not all control paths return a value
+d:\game-project\project\gameproject\statemanager.cpp(222): warning C4715: 'GS_MAINMENU::handleInput': not all control paths return a value
+d:\game-project\project\gameproject\statemanager.cpp(296): warning C4715: 'GS_CREDITS::handleInput': not all control paths return a value
+  TrainingFramework.vcxproj -> D:\Game-Project\PROJECT\\BIN\Core.exe
+  TrainingFramework.vcxproj -> D:\Game-Project\PROJECT\\BIN\Core.pdb (Full PDB)

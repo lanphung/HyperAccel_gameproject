@@ -1,0 +1,29 @@
+#MUSIC 4 
+40
+ID 0 WELCOME_BG
+FILE ../Resources/SFX/Music/I'mSpiderMan-TASM2.wav
+VOLUME 100
+ID 1 LVL_01
+FILE ../Resources/SFX/Music/Alive-WarblyJets.wav
+VOLUME 60
+ID 2 LVL_02
+FILE ../Resources/SFX/Music/spinalfluid.wav
+VOLUME 60
+ID 3 LVL_03
+FILE ../Resources/SFX/Music/NewDivide.wav
+VOLUME 60
+
+#SOUND 4
+60
+ID 0 MAIN_BULLET
+FILE ../Resources/SFX/Sounds/enegy_bullet_sound_01.wav
+VOLUME 10
+ID 1 BOMB
+FILE ../Resources/SFX/Sounds/bomb_sound_02.wav
+VOLUME 100
+ID 2 LASER
+FILE ../Resources/SFX/Sounds/laser_01.wav
+VOLUME 100
+ID 3 MISSILE
+FILE ../Resources/SFX/Sounds/missile_01.wav
+VOLUME 20

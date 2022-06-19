@@ -1,0 +1,12 @@
+#MUSIC 2
+ID 0
+FILE ../Resources/SFX/Music/Alive-WarblyJets.wav
+VOLUME 80
+ID 1
+FILE ../Resources/SFX/Music/I'mSpiderMan-TASM2.wav
+VOLUME 80
+
+#SOUND 1
+ID 0
+FILE ../Resources/SFX/Sounds/enegy_bullet_sound_01.wav
+VOLUME 80

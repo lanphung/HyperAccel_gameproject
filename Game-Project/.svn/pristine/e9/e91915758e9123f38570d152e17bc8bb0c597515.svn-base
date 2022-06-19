@@ -1,0 +1,74 @@
+#include "stdafx.h"
+#include "SoundEngine.h"
+
+
+SoundEngine * SoundEngine::ms_pInstance = NULL;
+
+
+
+bool SoundEngine::playMusic(char* filePath, bool isLoop)
+{;
+	if (!musicPlayer.openFromFile(filePath)) return false;
+	musicPlayer.play();
+	musicPlayer.setLoop(isLoop);
+	return true;
+}
+
+
+void SoundEngine::Init(char* filePath)
+{
+	FILE* sFile = fopen(filePath, "r");
+	if (!sFile)
+	{
+		LOG("Can't open audio specification file");
+	}
+
+	int count;
+	float volume;
+	char path[100];
+	fscanf(sFile, "#MUSIC %d\n", &count);
+	for (int i = 0; i < count; i++)
+	{
+		GameMusic* music = new GameMusic;
+		fscanf(sFile, "ID %d\n", &music->ID);
+		fscanf(sFile, "FILE %s\n", path);
+		fscanf(sFile, "VOLUME %f\n", &volume);
+		music->Init(path);
+		music->SetLocalVolume(volume);
+		music->SetVolume(volume);
+		m_aMusic.push_back(music);
+	}
+
+	fscanf(sFile, "\n#SOUND %d\n", &count);
+	for (int i = 0; i < count; i++)
+	{
+		GameSound* sound = new GameSound;
+		fscanf(sFile, "ID %d\n", &sound->ID);
+		fscanf(sFile, "FILE %s\n", path);
+		fscanf(sFile, "VOLUME %f\n", &volume);
+		sound->Init(path);
+		sound->SetLocalVolume(volume);
+		sound->SetVolume(volume);
+		m_aSound.push_back(sound);
+	}
+	fclose(sFile);
+}
+
+void SoundEngine::Update()
+{
+	for (int i = 0; i < m_aMusic.size(); i++)
+	{
+		m_aMusic[i]->SetVolume(m_volumeMusic);
+	}
+
+	for (int i = 0; i < m_aSound.size(); i++)
+	{
+		m_aSound[i]->SetVolume(m_volumeSound);
+	}
+}
+
+void SoundEngine::CleanUp()
+{
+	for (int i = 0; i < m_aMusic.size(); i++) RELEASE(m_aMusic[i]);
+	for (int i = 0; i < m_aSound.size(); i++) RELEASE(m_aSound[i]);
+}

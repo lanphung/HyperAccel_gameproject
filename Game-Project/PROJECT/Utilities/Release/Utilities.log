@@ -1,0 +1,12 @@
+﻿  stdafx.cpp
+  esShader.cpp
+  esUtil.cpp
+  esUtil_win.cpp
+  Math.cpp
+Math.cpp(10): warning C4244: 'return': conversion from 'double' to 'GLfloat', possible loss of data
+Math.cpp(104): warning C4244: 'return': conversion from 'double' to 'GLfloat', possible loss of data
+Math.cpp(208): warning C4244: 'return': conversion from 'double' to 'GLfloat', possible loss of data
+  MemoryManager.cpp
+  MemoryOperators.cpp
+  TGA.cpp
+  Utilities.vcxproj -> D:\Game-Project\PROJECT\Release\Utilities.lib

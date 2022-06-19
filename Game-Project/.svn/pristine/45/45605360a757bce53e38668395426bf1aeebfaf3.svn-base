@@ -1,0 +1,68 @@
+#include "EnemyRectangle.h"
+#include "time.h"
+
+#define SCREEN_WIDTH 120
+#define SCREEN_HEIGHT 160
+
+EnemyRectangle::EnemyRectangle(float width, float height)
+{
+	m_type = 2;
+	m_isRender = false;
+	this->width = width;
+	this->height = height;
+
+	rectangle.SetAsBox(this->width / 2, this->height / 2);
+
+	rectangleBD.type = b2_dynamicBody;
+
+	rectangleFD.shape = &rectangle;
+	rectangleFD.density = 100.0f;
+	rectangleFD.filter.categoryBits = k_enemyCategory;
+	rectangleFD.filter.maskBits = k_enemyMask;
+}
+
+EnemyRectangle::~EnemyRectangle()
+{
+
+}
+
+void EnemyRectangle::RenderBox2D(b2World* world)
+{
+	//rectangleBD.position.Set(RandomFloat(-SCREEN_WIDTH/2 , SCREEN_WIDTH/2 ), RandomFloat(-SCREEN_HEIGHT/2 + height / 2, SCREEN_HEIGHT/2 - height/2));
+	srand(time(NULL));
+	c = rand() % 4 + 1;
+	if (c == 1)
+	{
+		x = RandomFloat(-SCREEN_WIDTH / 2 + width / 2, SCREEN_WIDTH / 2 - width / 2);
+		y = RandomFloat(SCREEN_HEIGHT / 2 - 30, SCREEN_HEIGHT / 2 - height / 2);
+		rectangleBD.position.Set(x , y);
+	}
+	if (c == 2)
+	{
+		x = RandomFloat(-SCREEN_WIDTH / 2 + width / 2, SCREEN_WIDTH / 2 - width / 2);
+		y = RandomFloat(-SCREEN_HEIGHT / 2 + height / 2, -SCREEN_HEIGHT / 2 + 30);
+		rectangleBD.position.Set(x,y);
+	}
+	if (c == 3)
+	{
+		x = RandomFloat(-SCREEN_WIDTH / 2 + width / 2, -SCREEN_WIDTH / 2 + 30);
+		y = RandomFloat(-SCREEN_HEIGHT / 2 + 30, SCREEN_HEIGHT / 2 - 30);
+		rectangleBD.position.Set(x,y);
+	}
+	if (c == 4)
+	{
+		x = RandomFloat(SCREEN_WIDTH / 2 - 30, SCREEN_WIDTH / 2 - width / 2);
+		y = RandomFloat(-SCREEN_HEIGHT / 2 + 30, SCREEN_HEIGHT / 2 - 30);
+		rectangleBD.position.Set(x,y);
+	}
+	//rectangleBD.linearVelocity = Enemy::trajectory.at(rand() % Enemy::trajectory.size());
+
+	b2Vec2 z = b2Vec2(-x, -y);
+	z.Normalize();
+	rectangleBD.linearVelocity = b2Vec2(z);
+	m_hp = hp;
+	m_isRender = true;
+	m_body = world->CreateBody(&rectangleBD);
+	//m_body->SetLinearVelocity(Enemy::trajectory.at(rand() % Enemy::trajectory.size()));
+	m_body->CreateFixture(&rectangleFD);
+}

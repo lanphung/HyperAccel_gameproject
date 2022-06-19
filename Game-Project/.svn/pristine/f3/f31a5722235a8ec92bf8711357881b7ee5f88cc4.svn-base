@@ -1,0 +1,58 @@
+#pragma once
+#include "../Utilities/utilities.h"
+#include "Model.h"
+#include "Texture.h"
+#include "Shaders.h"
+#include "Globals.h"
+#include "Camera.h"
+#include "Lights.h"
+//#include "Sprite.h"
+#include "ResourceManager.h"
+#include <iostream>
+
+class Object
+{
+public:
+	Object();
+	~Object();
+	void Init();
+	void ModelInit();
+	virtual void SpriteInit(int ModelID, int spriteX, int spriteY, int spriteW, int spriteH, int
+		textureW, int textureH) = 0;
+	virtual int getSpriteX() = 0;
+	virtual int getSpriteY() = 0;
+	virtual int getSpriteW() = 0;
+	virtual int getSpriteH() = 0;
+	virtual int gettextureW() = 0;
+	virtual int gettextureH() = 0;
+	void Update(Camera* myCamera);
+	void Draw(int ObjID, Camera* myCamera);
+	void SetPosition(float x, float y);
+	void SetRotation(float z);
+	void MoveForward();
+	void MoveBackward();
+	void MoveLeft();
+	void MoveRight();
+	void RotLeft();
+	void RotRight();
+	char type[10];
+	int ID;
+	int TexturesCount;
+	int CubeTexturesCount;
+	int LightsCount;
+	int ModelID;
+	int ShaderID;
+	float u_Time = 0;
+	int currentFrame = 0;
+	std::vector <int> Texturelist;
+	std::vector <int> CubeTexturelist;
+	std::vector <int> Lightslist;
+	GLuint vboId, iboId;
+	GLuint TexId[32];
+	Vector3 Pos;
+	Vector3 Rot;
+	Vector3 Scale;
+	Matrix WVP;
+	Matrix WorldMat;
+	Matrix ViewMat;
+};

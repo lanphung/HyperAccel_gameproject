@@ -1,0 +1,25 @@
+#pragma once
+#include "MainCharacter.h"
+#include "BulletType1.h"
+#include "EnemyCircle.h"
+#include "EnemyRectangle.h"
+#include "UpgradeBullet.h"
+#include "bulletboss.h"
+#include <vector>
+
+using namespace std;
+
+class Box2DSceneManager
+{
+public:
+	Box2DSceneManager();
+	~Box2DSceneManager();
+	vector <Object*> m_objectList;
+	int m_objectNum;
+	void LoadData();
+
+	static Box2DSceneManager* GetInstance();
+private:
+	static Box2DSceneManager* s_Instance;
+};
+

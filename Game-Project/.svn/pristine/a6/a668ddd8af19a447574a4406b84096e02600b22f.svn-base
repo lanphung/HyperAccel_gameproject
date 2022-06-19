@@ -1,0 +1,13 @@
+#pragma once
+#include "Vertex.h"
+
+class Model
+{
+public:
+	Model();
+	~Model();
+	Vertex* Vertices = new Vertex[__MAX_VERTICES];
+	GLint* Idx = new GLint[__MAX_INDICES];
+	int VerticesCount;
+	int IndicesCount;
+};

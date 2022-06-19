@@ -1,0 +1,382 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Win32Res">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{6a42f37d-2c51-4783-91b2-adc923e5c09d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Shaders">
+      <UniqueIdentifier>{2282dbff-09d2-4dc5-9e1d-e8b68f4514a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{7cd5d02b-50fb-40f2-a2a1-751b3ceca04c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ParticleSystem">
+      <UniqueIdentifier>{a86366c5-8f2e-43c8-a84e-b5f7767796d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools">
+      <UniqueIdentifier>{0f14fa52-efe9-42aa-9465-445303799551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ProjectTest">
+      <UniqueIdentifier>{83314266-d76e-4e60-b8e5-9eab98e23f74}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Shaders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Lights.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TouchManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WVP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StateManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="p2Log.cpp">
+      <Filter>ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticlePool.cpp">
+      <Filter>ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystem.cpp">
+      <Filter>ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Emitter.cpp">
+      <Filter>ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Include\pugixml-1.9\src\pugixml.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="j1PerfTimer.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectTest\boss.cpp">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectTest\Box2DSceneManager.cpp">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectTest\Bullet.cpp">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectTest\bulletboss.cpp">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectTest\BulletType1.cpp">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectTest\Enemy.cpp">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectTest\EnemyCircle.cpp">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectTest\EnemyRectangle.cpp">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectTest\Item.cpp">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectTest\LazerTower.cpp">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectTest\MainCharacter.cpp">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectTest\ObjectPhysic.cpp">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectTest\UpgradeBullet.cpp">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectTest\Collision.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMusic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectTest\ItemBom.cpp">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectTest\ItemHp.cpp">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectTest\BulletNewenemy.cpp">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectTest\NewEnemy.cpp">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectTest\Missile.cpp">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Lights.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TouchManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WVP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StateManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRender.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="p2Log.h">
+      <Filter>ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="p2Point.h">
+      <Filter>ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticlePool.h">
+      <Filter>ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Emitter.h">
+      <Filter>ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\pugixml-1.9\src\pugiconfig.hpp">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\pugixml-1.9\src\pugixml.hpp">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="j1PerfTimer.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\boss.h">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\Box2DSceneManager.h">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\Bullet.h">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\bulletboss.h">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\BulletType1.h">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\define.h">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\DetectEnemy.h">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\enemy.h">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\EnemyCircle.h">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\EnemyRectangle.h">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\Item.h">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\lazertower.h">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\MainCharacter.h">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\ObjectPhysic.h">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\UpgradeBullet.h">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\Collision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMusic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSound.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\ItemBom.h">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\ItemHp.h">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\BulletNewenemy.h">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\NewEnemy.h">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectTest\Missile.h">
+      <Filter>Source Files\ProjectTest</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Readme.doc" />
+    <None Include="..\Resources\Shaders\SpriteShaderFS.fs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\SpriteShaderVS.vs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\textFS.fs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\textVS.vs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\BGShaderFS.fs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\BGShaderVS.vs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\TitlesShaderFS.fs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\TitlesShaderVS.vs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\ParticleShaderFS.fs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\ParticleShaderVS.vs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\BlendShader.fs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\BlendShader.vs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\Resources\psystem_config.xml">
+      <Filter>ParticleSystem</Filter>
+    </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Resources\Managers\Box2D_SM.txt">
+      <Filter>Source Files\ProjectTest</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

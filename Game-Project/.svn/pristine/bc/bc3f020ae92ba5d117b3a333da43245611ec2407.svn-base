@@ -1,0 +1,160 @@
+#ifndef MYTEST_H
+#define MYTEST_H
+
+#include "Build\LazerTowerDevelope\EnemyL.h"
+#include "Build\LazerTowerDevelope\LazerTower.h"
+
+class MyTest : public Test
+{
+public:
+
+	enum Mode
+	{
+		e_closest,
+		e_any,
+		e_multiple
+	};
+
+	MyTest() 
+	{
+		// world gravity
+		b2Vec2 gravity;
+		gravity.Set(0.0f, 0.0f);
+		m_world->SetGravity(gravity);		
+		
+		//create a lazer tower
+		lazerTower = new LazerTower(0.0f, 20.0f);
+		lazerTower->buildLazerTower(m_world);
+				
+		//create 2 enemies to test
+		enemy1 = new EnemyL(20.0f, 20.0f);
+		enemy1->spawnEnemy(m_world);
+		
+		enemy2 = new EnemyL(-25.0f, 20.0f);
+		enemy2->spawnEnemy(m_world);
+		
+		//create Lazer
+		m_angle = 0;
+
+		m_mode = e_closest;
+
+		rotationToTarget = 0;
+
+		cooldownLazer = 0;
+	}
+	
+	void EnemySpawn()
+	{
+
+	}
+
+	void Keyboard(int key)
+	{
+		switch (key)
+		{
+		case GLFW_KEY_1:
+			EnemySpawn();
+			break;
+		}
+	}
+	
+	void Step(Settings* settings)
+	{
+		//bool advanceRay = settings->pause == 0 || settings->singleStep;
+		//run the default physics and rendering
+		Test::Step(settings);
+	
+		//show some text in the main screen
+		g_debugDraw.DrawString(5, m_textLine, "Oh my god, this is the coolest thing i ever seen");
+		m_textLine += 15;
+		
+		lazerTower->update(m_world);
+		
+		
+		//getchar();
+
+		b2Color color(0.0f, 1.0f, 0.0f);
+		g_debugDraw.DrawCircle(
+			lazerTower->lazerTowerBody->GetPosition(), lazerTower->getRange(), color);
+		b2Color lazerColor(1.0f, 0.0f, 0.0f);
+		if (lazerTower->enemyTarget->enemyBody != NULL)
+		{
+			g_debugDraw.DrawPoint(lazerTower->enemyTarget->enemyBody->GetPosition(), 5.0f, lazerColor);
+			g_debugDraw.DrawSegment(lazerTower->getLazerTowerPosition(), lazerTower->enemyTarget->enemyBody->GetPosition(), lazerColor);
+		}
+		////create lazer
+		//float32 range = 40.0f;
+		//b2Vec2 point1(0.0f, 20.0f);
+		//b2Vec2 destination(range * cosf(m_angle), range * sinf(m_angle));
+		//b2Vec2 point2 = point1 + destination;
+
+		//if (m_mode == e_closest)
+		//{
+
+		//	RayCastClosestCallback callback;
+		//	m_world->RayCast(&callback, point1, point2);
+
+		//	if (callback.m_hit)
+		//	{
+		//		//Rotate gun lazer to enemy
+		//		//float32 bodyAngle = lazerTower->lazerTowerBody->GetAngle();
+		//		float32 bodyAngle = lazerTower->getLazerTowerAngle();
+		//		b2Vec2 toTarget = callback.m_point - lazerTower->getLazerTowerPosition();
+		//		rotationToTarget = atan2f(-toTarget.x, toTarget.y);
+		//		float32 totalRotation = rotationToTarget - bodyAngle;
+		//		//animation rotation
+		//		float32 change = 20.0f * b2_pi / 180.0f;
+		//		float32 newAngle = bodyAngle + fmin(change, fmax(-change, totalRotation));
+		//		lazerTower->lazerTowerBody->SetTransform(lazerTower->getLazerTowerPosition(), newAngle);
+		//		if (cooldownLazer <= 0)
+		//		{
+		//			//shoot(toTarget);
+		//			cooldownLazer = 0.5f;
+		//		}
+		//			
+		//		while (totalRotation < -b2_pi) totalRotation += 2 * b2_pi;
+		//		while (totalRotation > -b2_pi) totalRotation -= 2 * b2_pi;
+		//		//g_debugDraw.DrawPoint(callback.m_point, 5.0f, b2Color(0.4f, 0.9f, 0.4f));
+		//		g_debugDraw.DrawPoint(callback.m_point, 5.0f, b2Color(1.0f, 0.0f, 0.0f));
+		//		g_debugDraw.DrawSegment(point1, callback.m_point, b2Color(0.8f, 0.8f, 0.8f));
+		//		
+		//		//b2Vec2 head = callback.m_point + 0.5f * callback.m_normal;
+		//		//g_debugDraw.DrawSegment(callback.m_point, head, b2Color(0.9f, 0.9f, 0.4f));
+		//	}
+		//	else
+		//	{
+		//		g_debugDraw.DrawSegment(point1, point2, b2Color(0.8f, 0.8f, 0.8f));
+		//	}
+		//}
+
+		//if (advanceRay)
+		//{
+		//	//m_angle += 0.8f * b2_pi / 180.0f;
+		//	m_angle += 1.0f * b2_pi / 180.0f;
+		//	cooldownLazer -= 0.01f;
+		//}
+
+	}
+		
+	static Test* Create()
+	{
+		return new MyTest;
+	}
+
+	float32 m_angle;
+
+	float32 rotationToTarget;
+
+	float32 cooldownLazer;
+
+	Mode m_mode;
+
+	b2Body* m_bullet;
+
+	LazerTower *lazerTower;
+
+	EnemyL *enemy1;
+	EnemyL *enemy2;
+};
+
+#endif

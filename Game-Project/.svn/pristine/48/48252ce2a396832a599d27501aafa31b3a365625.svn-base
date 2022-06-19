@@ -1,0 +1,28 @@
+#include "bulletboss.h"
+
+bulletboss::bulletboss(float width, float height)
+{
+	m_type = 2;
+	m_isRender = false;
+	this->width = width;
+	this->height = height;
+
+	rectangle.SetAsBox(this->width / 2, this->height / 2);
+
+	rectangleBD.type = b2_dynamicBody;
+
+	rectangleFD.shape = &rectangle;
+	rectangleFD.density = 100.0f;
+	//rectangleFD.filter.categoryBits = k_enemyCategory;
+	//rectangleFD.filter.maskBits = k_enemyMask;
+}
+
+bulletboss::~bulletboss()
+{
+
+}
+
+void bulletboss::RenderBox2D(b2World* m_world)
+{
+
+}

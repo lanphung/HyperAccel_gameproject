@@ -1,0 +1,160 @@
+#Models: 1
+ID 0
+FILE ../Resources/Models/sprite.nfg
+
+#2D Textures: 28
+ID 0
+FILE ../Resources/Textures/mainship.tga
+TILING REPEAT
+
+ID 1
+FILE ../Resources/Textures/backgroundSpaceOfficial.tga
+TILING REPEAT
+
+ID 2
+FILE ../Resources/Textures/button.tga
+TILING REPEAT
+
+ID 3
+FILE ../Resources/Textures/startscreen.tga
+TILING REPEAT
+
+ID 4
+FILE ../Resources/Textures/menu-background.tga
+TILING REPEAT
+
+ID 5
+FILE ../Resources/Textures/Credit_background.tga
+TILING REPEAT
+
+ID 6
+FILE ../Resources/Textures/nghic1.tga
+TILING REPEAT
+
+ID 7
+FILE ../Resources/Textures/Alien-Battleship.tga
+TILING REPEAT
+
+ID 8
+FILE ../Resources/Textures/pause.tga
+TILING REPEAT
+
+ID 9
+FILE ../Resources/Textures/light_03.tga
+TILING REPEAT
+
+ID 10
+FILE ../Resources/Textures/circle_03.tga
+TILING REPEAT
+
+ID 11
+FILE ../Resources/Textures/Alien-Bomber.tga
+TILING REPEAT
+
+ID 12
+FILE ../Resources/Textures/laser.tga
+TILING REPEAT
+
+ID 13
+FILE ../Resources/Textures/back.tga
+TILING REPEAT
+
+ID 14
+FILE ../Resources/Textures/option.tga
+TILING REPEAT
+
+ID 15
+FILE ../Resources/Textures/play.tga
+TILING REPEAT
+
+ID 16
+FILE ../Resources/Textures/stop.tga
+TILING REPEAT
+
+ID 17
+FILE ../Resources/Textures/flame_04.tga
+TILING REPEAT
+
+ID 18
+FILE ../Resources/Textures/light_03.tga
+TILING REPEAT
+
+ID 19
+FILE ../Resources/Textures/fire_01.tga
+TILING REPEAT
+
+ID 20
+FILE ../Resources/Textures/bn_msound.tga
+TILING REPEAT
+
+ID 21
+FILE ../Resources/Textures/buttondow.tga
+TILING REPEAT
+
+ID 22
+FILE ../Resources/Textures/buttonup.tga
+TILING REPEAT
+
+ID 23
+FILE ../Resources/Textures/fire_02.tga
+TILING REPEAT
+
+ID 24
+FILE ../Resources/Textures/Alien-Mothership2.tga
+TILING REPEAT
+
+ID 25
+FILE ../Resources/Textures/circle_03-boss.tga
+TILING REPEAT
+
+ID 26
+FILE ../Resources/Textures/white.tga
+TILING REPEAT
+
+ID 27
+FILE ../Resources/Textures/missile.tga
+TILING REPEAT
+
+#Shaders: 7
+ID 0
+VS ../Resources/Shaders/BGShaderVS.vs
+FS ../Resources/Shaders/BGShaderFS.fs
+STATES 2
+STATE DEPTH_TEST
+STATE ALPHA
+ID 1
+VS ../Resources/Shaders/SpriteShaderVS.vs
+FS ../Resources/Shaders/SpriteShaderFS.fs
+STATES 2
+STATE DEPTH_TEST
+STATE ALPHA
+ID 2
+VS ../Resources/Shaders/TitlesShaderVS.vs
+FS ../Resources/Shaders/TitlesShaderFS.fs
+STATES 2
+STATE DEPTH_TEST
+STATE ALPHA
+ID 3
+VS ../Resources/Shaders/ButtonShaderVS.vs
+FS ../Resources/Shaders/ButtonShaderFS.fs
+STATES 2
+STATE DEPTH_TEST
+STATE ALPHA
+ID 4
+VS ../Resources/Shaders/textVS.vs
+FS ../Resources/Shaders/textFS.fs
+STATES 2
+STATE DEPTH_TEST
+STATE ALPHA
+ID 5
+VS ../Resources/Shaders/ParticleShaderVS.vs
+FS ../Resources/Shaders/ParticleShaderFS.fs
+STATES 2
+STATE DEPTH_TEST
+STATE ALPHA
+ID 6
+VS ../Resources/Shaders/BlendShader.vs
+FS ../Resources/Shaders/BlendShader.fs
+STATES 2
+STATE DEPTH_TEST
+STATE ALPHA

@@ -1,0 +1,17 @@
+#pragma once
+#include "Enemy.h"
+
+class EnemyCircle : public Enemy
+{
+public:
+	EnemyCircle(float radius);
+	~EnemyCircle();
+	
+	b2BodyDef circleBD;
+	b2CircleShape circle;
+	b2FixtureDef circleFD;
+	float radius;
+	int c;
+	
+	void RenderBox2D(b2World *world);
+};

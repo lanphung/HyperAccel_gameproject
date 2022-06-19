@@ -1,0 +1,224 @@
+<?xml version="1.0"?>
+
+<!-- Config file for the particle system -->
+
+<emitters>
+  <particleAtlas name="../Resources/Textures/particles.tga">
+    <emitter type ="fire">
+      <angleRange min ="0" max ="90"/>
+      <rotSpeed value ="0" randMin = "-1" randMax ="1"/>
+      <startSpeed value ="2" randMin = "0" randMax ="1"/>
+      <endSpeed value ="3" randMin = "0" randMax ="1"/>
+      <startSize value ="25" randMin ="0" randMax ="1"/>
+      <endSize value =" 40" randMin ="1" randMax ="1"/>
+      <emitNumber value ="2"/>
+      <emitVariance value ="10" randMin = "0" randMax ="1"/>
+      <maxParticleLife value ="5" randMin = "0" randMax ="1"/>
+      <textureRect x="0" y="0" w="128" h="128"/>
+      <startColor r ="96" g="126" b="210" a="255"/>
+      <endColor r ="89" g="195" b="207" a ="0"/>
+      <blendMode mode ="add"/>
+      <lifetime value ="-1"/>
+      <vortexSensitive state = "true"/>
+    </emitter>
+
+    <emitter type ="wave_2">
+      <angleRange min ="50" max ="130"/>
+      <rotSpeed value ="0" randMin ="-1" randMax ="1"/>
+      <startSpeed value ="0" randMin ="0" randMax ="1"/>
+      <endSpeed value ="0" randMin ="0" randMax ="1"/>
+      <startSize value ="0" randMin ="0" randMax ="1"/>
+      <endSize value =" 100" randMin ="1" randMax ="1"/>
+      <emitNumber value ="1"/>
+      <emitVariance value ="0" randMin ="0" randMax ="1"/>
+      <maxParticleLife value ="110" randMin ="0" randMax ="1"/>
+      <textureRect x="128" y="0" w="256" h="256"/>
+      <startColor r ="255" g="100" b="0" a ="255"/>
+      <endColor r ="255" g="100" b="0" a ="0"/>
+      <blendMode mode ="add"/>
+      <lifetime value ="50"/>
+      <vortexSensitive state = "true"/>
+    </emitter>
+
+    <emitter type ="mid_explosion">
+      <angleRange min ="50" max ="130"/>
+      <rotSpeed value ="0" randMin ="-1" randMax ="1"/>
+      <startSpeed value ="0" randMin ="0" randMax ="1"/>
+      <endSpeed value ="0" randMin ="0" randMax ="1"/>
+      <startSize value ="0" randMin ="0" randMax ="1"/>
+      <endSize value =" 300" randMin ="1" randMax ="1"/>
+      <emitNumber value ="1"/>
+      <emitVariance value ="0" randMin ="0" randMax ="1"/>
+      <maxParticleLife value ="110" randMin ="0" randMax ="1"/>
+      <textureRect x="128" y="0" w="256" h="256"/>
+      <startColor r ="255" g="100" b="0" a ="255"/>
+      <endColor r ="255" g="100" b="0" a ="0"/>mid_explosion
+      <blendMode mode ="add"/>
+      <lifetime value ="50"/>
+      <vortexSensitive state = "true"/>
+    </emitter>
+
+    <emitter type ="wave_1">
+      <angleRange min ="50" max ="130"/>
+      <rotSpeed value ="0" randMin ="-1" randMax ="1"/>
+      <startSpeed value ="0" randMin ="0" randMax ="1"/>
+      <endSpeed value ="0" randMin ="0" randMax ="1"/>
+      <startSize value ="0" randMin ="0" randMax ="1"/>
+      <endSize value = "10000" randMin ="1" randMax ="1"/>
+      <emitNumber value ="1"/>
+      <emitVariance value ="0" randMin ="0" randMax ="1"/>
+      <maxParticleLife value ="150" randMin ="0" randMax ="1"/>
+      <textureRect x="128" y="0" w="256" h="255"/>
+      <startColor r ="255" g="100" b="0" a ="255"/>
+      <endColor r ="255" g="100" b="0" a ="0"/>
+      <blendMode mode ="add"/>
+      <lifetime value ="50"/>
+      <vortexSensitive state = "true"/>
+    </emitter>
+
+    <emitter type ="boss_entrance">
+      <angleRange min ="50" max ="130"/>
+      <rotSpeed value ="0" randMin ="-1" randMax ="1"/>
+      <startSpeed value ="0" randMin ="0" randMax ="1"/>
+      <endSpeed value ="0" randMin ="0" randMax ="1"/>
+      <startSize value ="5000" randMin ="0" randMax ="1"/>
+      <endSize value = "800" randMin ="1" randMax ="1"/>
+      <emitNumber value ="1"/>
+      <emitVariance value ="0" randMin ="0" randMax ="1"/>
+      <maxParticleLife value ="100" randMin ="0" randMax ="1"/>
+      <textureRect x="128" y="0" w="256" h="255"/>
+      <startColor r ="250" g="0" b="33" a ="50"/>
+      <endColor r ="240" g="245" b="36" a ="0"/>
+      <blendMode mode ="add"/>
+      <lifetime value ="1200"/>
+      <vortexSensitive state = "true"/>
+    </emitter>
+
+    <emitter type ="shield">
+      <angleRange min ="50" max ="130"/>
+      <rotSpeed value ="0" randMin ="-1" randMax ="1"/>
+      <startSpeed value ="0" randMin ="0" randMax ="1"/>
+      <endSpeed value ="0" randMin ="0" randMax ="1"/>
+      <startSize value ="0" randMin ="0" randMax ="1"/>
+      <endSize value =" 300" randMin ="1" randMax ="1"/>
+      <emitNumber value ="1"/>
+      <emitVariance value ="0" randMin ="0" randMax ="1"/>
+      <maxParticleLife value ="5" randMin ="0" randMax ="1"/>
+      <textureRect x="128" y="0" w="256" h="256"/>
+      <startColor r ="159" g="211" b="229" a ="100"/>
+      <endColor r ="159" g="211" b="229" a ="0"/>
+      <blendMode mode ="add"/>
+      <lifetime value ="-1"/>
+      <vortexSensitive state = "true"/>
+    </emitter>
+
+    <emitter type ="main_death">
+      <angleRange min ="50" max ="130"/>
+      <rotSpeed value ="0" randMin ="-1" randMax ="1"/>
+      <startSpeed value ="0" randMin ="0" randMax ="1"/>
+      <endSpeed value ="0" randMin ="0" randMax ="1"/>
+      <startSize value ="0" randMin ="0" randMax ="1"/>
+      <endSize value = "800" randMin ="1" randMax ="1"/>
+      <emitNumber value ="1"/>
+      <emitVariance value ="0" randMin ="0" randMax ="1"/>
+      <maxParticleLife value ="300" randMin ="0" randMax ="1"/>
+      <textureRect x="128" y="0" w="256" h="256"/>
+      <startColor r ="255" g="100" b="0" a ="60"/>
+      <endColor r ="255" g="100" b="0" a ="0"/>
+      <blendMode mode ="add"/>
+      <lifetime value ="200"/>
+      <vortexSensitive state = "true"/>
+    </emitter>
+
+    <emitter type ="boss_death">
+      <angleRange min ="50" max ="130"/>
+      <rotSpeed value ="0" randMin ="-1" randMax ="1"/>
+      <startSpeed value ="0" randMin ="0" randMax ="1"/>
+      <endSpeed value ="0" randMin ="0" randMax ="1"/>
+      <startSize value ="0" randMin ="0" randMax ="1"/>
+      <endSize value = "1700" randMin ="1" randMax ="1"/>
+      <emitNumber value ="1"/>
+      <emitVariance value ="0" randMin ="0" randMax ="1"/>
+      <maxParticleLife value ="300" randMin ="0" randMax ="1"/>
+      <textureRect x="128" y="0" w="256" h="256"/>
+      <startColor r ="187" g="12" b="17" a ="60"/>
+      <endColor r ="198" g="135" b="113" a ="0"/>
+      <blendMode mode ="add"/>
+      <lifetime value ="500"/>
+      <vortexSensitive state = "true"/>
+    </emitter>
+
+    <emitter type ="rocket_exploded">
+      <angleRange min ="50" max ="130"/>
+      <rotSpeed value ="0" randMin ="-1" randMax ="1"/>
+      <startSpeed value ="0" randMin ="0" randMax ="1"/>
+      <endSpeed value ="0" randMin ="0" randMax ="1"/>
+      <startSize value ="0" randMin ="0" randMax ="1"/>
+      <endSize value =" 160" randMin ="1" randMax ="1"/>
+      <emitNumber value ="1"/>
+      <emitVariance value ="0" randMin ="0" randMax ="1"/>
+      <maxParticleLife value ="50" randMin ="0" randMax ="1"/>
+      <textureRect x="128" y="0" w="256" h="256"/>
+      <startColor r ="226" g="96" b="64" a ="255"/>
+      <endColor r ="240" g="229" b="56" a ="0"/>
+      <blendMode mode ="add"/>
+      <lifetime value ="80"/>
+      <vortexSensitive state = "true"/>
+    </emitter>
+
+    <emitter type ="laser">
+      <angleRange min ="0" max ="360"/>
+      <rotSpeed value ="0" randMin ="-1" randMax ="1"/>
+      <startSpeed value ="0" randMin ="0" randMax ="1"/>
+      <endSpeed value ="0" randMin ="0" randMax ="1"/>
+      <startSize value ="0" randMin ="0" randMax ="1"/>
+      <endSize value =" 150" randMin ="1" randMax ="1"/>
+      <emitNumber value ="1"/>
+      <emitVariance value ="0" randMin ="0" randMax ="1"/>
+      <maxParticleLife value ="10" randMin ="0" randMax ="1"/>
+      <textureRect x="128" y="0" w="256" h="256"/>
+      <startColor r ="230" g="15" b="17" a ="255"/>
+      <endColor r ="0" g="0" b="0" a ="0"/>
+      <blendMode mode ="add"/>
+      <lifetime value ="-1"/>
+      <vortexSensitive state = "true"/>
+    </emitter>
+
+    <emitter type ="bullet">
+      <angleRange min ="50" max ="130"/>
+      <rotSpeed value ="0" randMin ="-1" randMax ="1"/>
+      <startSpeed value ="0" randMin ="0" randMax ="1"/>
+      <endSpeed value ="0" randMin ="0" randMax ="1"/>
+      <startSize value ="0" randMin ="0" randMax ="1"/>
+      <endSize value =" 40" randMin ="1" randMax ="1"/>
+      <emitNumber value ="1"/>
+      <emitVariance value ="0" randMin ="0" randMax ="1"/>
+      <maxParticleLife value ="50" randMin ="0" randMax ="1"/>
+      <textureRect x="128" y="0" w="256" h="256"/>
+      <startColor r ="5" g="138" b="214" a ="50"/>
+      <endColor r ="5" g="188" b="214" a ="0"/>
+      <blendMode mode ="add"/>
+      <lifetime value ="50"/>
+      <vortexSensitive state = "true"/>
+    </emitter>
+
+    <emitter type ="rocket_exhaust">
+      <angleRange min ="0" max ="90"/>
+      <rotSpeed value ="0" randMin = "-1" randMax ="1"/>
+      <startSpeed value ="2" randMin = "0" randMax ="1"/>
+      <endSpeed value ="3" randMin = "0" randMax ="1"/>
+      <startSize value ="25" randMin ="0" randMax ="1"/>
+      <endSize value =" 60" randMin ="1" randMax ="1"/>
+      <emitNumber value ="1"/>
+      <emitVariance value ="10" randMin = "0" randMax ="1"/>
+      <maxParticleLife value ="4" randMin = "0" randMax ="1"/>
+      <textureRect x="0" y="0" w="128" h="128"/>
+      <startColor r ="210" g="210" b="210" a ="100"/>
+      <endColor r ="237" g="240" b="45" a ="0"/>
+      <blendMode mode ="add"/>
+      <lifetime value ="-1"/>
+      <vortexSensitive state = "true"/>
+    </emitter>
+
+  </particleAtlas>
+</emitters>

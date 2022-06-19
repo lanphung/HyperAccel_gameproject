@@ -1,0 +1,30 @@
+#pragma once
+#include "Testbed\Framework\Test.h"
+
+const uint16 k_mainCategory = 0x0002;
+const uint16 k_enemyCategory = 0x0004;
+const uint16 k_bulletCategory = 0x0008;
+const uint16 k_itemCategory = 0x0016;
+
+const uint16 k_itemMask = 0xFFFF ^ k_enemyCategory ^ k_bulletCategory;
+const uint16 k_mainMask = 0xFFFF ^ k_bulletCategory;
+const uint16 k_enemyMask = 0xFFFF ^ k_enemyCategory;
+const uint16 k_bulletMask = 0xFFFF ^ k_bulletCategory ^ k_mainCategory;
+
+class Object : public Test
+{
+public:
+	Object();
+	~Object();
+	b2Body *m_body;
+	int m_id;
+	int m_type;
+	int m_life;
+	float m_hp;
+	float hp;
+	bool m_isRender;
+	float width, height, posX, posY, initialLife;
+	virtual void RenderBox2D(b2World *world) {};
+	virtual void Update(b2World *world) {};
+};
+

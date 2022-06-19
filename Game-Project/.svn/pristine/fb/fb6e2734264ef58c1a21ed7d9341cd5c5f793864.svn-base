@@ -1,0 +1,63 @@
+#include "boss.h"
+
+
+boss::boss(float width, float height)
+{
+	m_isRender = false;
+	this->width = width;
+	this->height = height;
+
+	rectangle.SetAsBox(this->width / 2, this->height / 2);
+
+	rectangleBD.type = b2_dynamicBody;
+
+	rectangleFD.shape = &rectangle;
+	rectangleFD.density = 100.0f;
+	rectangleFD.filter.categoryBits = k_enemyCategory;
+	rectangleFD.filter.maskBits = k_enemyMask;
+	userData = new UserData;
+	userData->thisEnemy = this;
+}
+
+boss::~boss()
+{
+	//delete userData;
+	//userData = NULL;
+}
+
+void boss::RenderBox2D(b2World* world)
+{
+	rectangleBD.position.Set(0, 30);
+	m_hp = hp;
+	m_isRender = true;
+	m_body = world->CreateBody(&rectangleBD);
+	m_body->CreateFixture(&rectangleFD);
+	
+	m_body->SetUserData(userData);
+	m_body->SetLinearVelocity(b2Vec2(0.0, -0.2));
+}
+
+void boss::release()
+{
+	delete userData;
+	userData = NULL;
+}
+
+void boss::takeDame(float32 dame)
+{
+	m_hp -= dame;
+	Die(m_body->GetWorld());
+}
+
+void boss::Die(b2World* world)
+{
+	if (m_hp <= 0.0f)
+	{
+		world->DestroyBody(m_body);
+	}
+}
+
+void boss::hit(b2World *world)
+{
+
+}

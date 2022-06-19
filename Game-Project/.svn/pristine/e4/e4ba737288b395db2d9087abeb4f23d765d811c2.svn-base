@@ -1,0 +1,130 @@
+#include "SceneManager.h"
+
+
+SceneManager * SceneManager::ms_pInstance = NULL;
+
+SceneManager::SceneManager()
+{
+}
+
+SceneManager::~SceneManager()
+{
+}
+
+void SceneManager::Init()
+{
+	myCamera->SetPosition(0.0f, 0.0f, 50.0f);
+	for (int i = 0; i < ObjectCount; i++)
+	{
+		Objects.at(i)->Init();
+		Objects.at(i)->ModelInit();
+	}
+}
+
+void SceneManager::SceneLoading()
+{
+	FILE* pFile;
+	int ID, a_number;
+	int count = 0;
+	pFile = fopen("../Resources/Managers/SM_SPRITE.txt", "r");
+	//Loading objects
+	fscanf(pFile, "#Objects: %d\n", &ObjectCount);
+	for (int c = 0; c < ObjectCount; c++)
+	{
+		Sprite* NewObject = new Sprite;
+		fscanf(pFile, "ID %d\n", &NewObject->ID);
+		fscanf(pFile, "TYPE %s\n", &NewObject->type);
+		fscanf(pFile, "MODEL %d\n", &NewObject->ModelID);
+		fscanf(pFile, "TEXTURES %d\n", &NewObject->TexturesCount);
+		for (int TexCount = 0; TexCount < NewObject->TexturesCount; TexCount++) {
+				fscanf(pFile, "TEXTURE %d\n", &a_number);
+				NewObject->Texturelist.push_back(a_number);
+			}
+		fscanf(pFile, "COORDS %d %d %d %d %d %d\n", &NewObject->spriteX, &NewObject->spriteY, &NewObject->spriteW, &NewObject->spriteH, &NewObject->textureW, &NewObject->textureH);
+		fscanf(pFile, "SHADER %d\n", &NewObject->ShaderID);
+		fscanf(pFile, "POSITION %f %f %f\n", &NewObject->Pos.x, &NewObject->Pos.y, &NewObject->Pos.z);
+		fscanf(pFile, "ROTATION %f %f %f\n", &NewObject->Rot.x, &NewObject->Rot.y, &NewObject->Rot.z);
+		fscanf(pFile, "SCALE %f %f %f\n", &NewObject->Scale.x, &NewObject->Scale.y, &NewObject->Scale.z);
+		fscanf(pFile, "\n");
+		Objects.push_back(NewObject);
+	}
+	//Loading lights
+	Vector3 AmbientColor;
+	float AmbientWeight;
+	fscanf(pFile, "#LIGHTS\n");
+	fscanf(pFile, "AmbientColor %f %f %f\n", &AmbientColor.x, &AmbientColor.y, &AmbientColor.z);
+	fscanf(pFile, "AmbientWeight %f\n", &AmbientWeight);
+	fscanf(pFile, "LightsCount: %d\n", &NrLights);
+	fscanf(pFile, "\n");
+	for (int c = 0; c < NrLights; c++)
+	{
+		Lights* NewLight = new Lights;
+		fscanf(pFile, "ID %d\n", &ID);
+		fscanf(pFile, "POS/DIR %f %f %f\n", &NewLight->Dir.x, &NewLight->Dir.y, &NewLight->Dir.z);
+		fscanf(pFile, "TYPE %s\n", &NewLight->TYPE);
+		fscanf(pFile, "COLOR %f %f %f\n", &NewLight->COLOR.x, &NewLight->COLOR.y, &NewLight->COLOR.z);
+		fscanf(pFile, "MOVING %s\n", &NewLight->MOVING);
+		fscanf(pFile, "RADIUS %f\n", &NewLight->RADIUS);
+		fscanf(pFile, "SPEED %f\n", &NewLight->SPEED);
+		fscanf(pFile, "\n");
+		NewLight->AmbientColor = AmbientColor;
+		NewLight->AmbientWeight = AmbientWeight;
+		Light.push_back(NewLight);
+		//delete NewLight;
+
+	}
+	fscanf(pFile, "#CAMERA\n");
+	fscanf(pFile, "NEAR %f\n", &myCamera->Near);
+	fscanf(pFile, "FAR %f\n", &myCamera->Far);
+	fscanf(pFile, "FOV %f\n", &myCamera->FOV);
+	fscanf(pFile, "SPEED %f\n", &myCamera->SPEED);
+	fscanf(pFile, "\n");
+	fclose(pFile);
+	
+
+}
+
+
+int SceneManager::GetObjwID(int ID)
+{
+	for (int i = 0; i < ObjectCount; i++) if (Objects.at(i)->ID == ID) return i;
+	std::cout << "Can't find such object!" << std::endl;
+	return 0;
+}
+
+void SceneManager::Draws()
+{
+	for (int i = 0; i < ObjectCount; i++)
+	{
+		int ObjID = GetObjwID(i);
+		Objects.at(ObjID)->Draw(i, myCamera);
+	}
+}
+
+void SceneManager::Update(float deltaTime)
+{
+	for(int it = 0; it < ObjectCount; it++)
+	{
+		Objects.at(it)->Update(myCamera);
+		Objects.at(it)->u_Time += deltaTime;
+	}
+}
+
+void SceneManager::CleanUp()
+{
+	for (int i = 0; i < SceneManager::GetInstance()->ObjectCount; i++)
+	{
+		glDeleteBuffers(1, &SceneManager::GetInstance()->Objects.at(i)->vboId);
+		glDeleteBuffers(1, &SceneManager::GetInstance()->Objects.at(i)->iboId);
+		Objects.at(i) = NULL;
+		delete[] Objects.at(i);
+	}
+	for (int i = 0; i < SceneManager::GetInstance()->LightsCount; i++)
+	{
+		Light.at(i) = NULL;
+		delete[] Light.at(i);
+	}
+	SceneManager::DestroyInstance();
+}
+
+

@@ -1,0 +1,26 @@
+#pragma once
+
+#include "Box2D/Box2D.h"
+
+class EnemyL
+{
+private:
+	float32 health;
+	bool alive;
+public:
+	EnemyL();
+	EnemyL(float32 positionX, float32 positionY);
+	~EnemyL();
+
+	float32 getHealth();
+	bool isAlive();
+
+	void createEnemy(b2World* m_world);
+	void takeDamage(float32 amountOfDamage);
+	void Die(b2World* m_world);
+	void spawnEnemy(b2World* m_world);
+	b2BodyDef enemyBodyDef;
+	b2Body* enemyBody;
+	b2FixtureDef enemyFixtureDef;
+	b2PolygonShape e_polygon;
+};

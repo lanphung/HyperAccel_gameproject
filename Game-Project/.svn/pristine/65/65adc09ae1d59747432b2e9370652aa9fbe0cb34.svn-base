@@ -1,0 +1,311 @@
+/*
+* Copyright (c) 2006-2012 Erin Catto http://www.box2d.org
+*
+* This software is provided 'as-is', without any express or implied
+* warranty.  In no event will the authors be held liable for any damages
+* arising from the use of this software.
+* Permission is granted to anyone to use this software for any purpose,
+* including commercial applications, and to alter it and redistribute it
+* freely, subject to the following restrictions:
+* 1. The origin of this software must not be misrepresented; you must not
+* claim that you wrote the original software. If you use this software
+* in a product, an acknowledgment in the product documentation would be
+* appreciated but is not required.
+* 2. Altered source versions must be plainly marked as such, and must not be
+* misrepresented as being the original software.
+* 3. This notice may not be removed or altered from any source distribution.
+*/
+
+#ifndef AddPair_H
+#define AddPair_H
+
+
+#include "Testbed\ProjectTest\Box2DSceneManager.h"
+#include "Testbed\ProjectTest\BulletType1.h"
+#include "Testbed\ProjectTest\EnemyCircle.h"
+#include "Testbed\ProjectTest\EnemyRectangle.h"
+#include "Testbed\ProjectTest\UpgradeBullet.h"
+#define FIRING_SPEED 1
+
+#define MAX_UPGRADE 1
+#define MAX_BULLET 8
+#define MAX_ENEMY 10
+#define SCREEN_WIDTH 120
+#define SCREEN_HEIGHT 160
+
+class AddPair : public Test
+{
+public:
+	int step = 0;
+	int index = 0;
+	int timeRenderEnemy = 0;
+	int timeRespawn = 0;
+	int dam;
+
+	AddPair()
+	{
+		m_world->SetGravity(b2Vec2(0.0f, 0.0f));
+
+		b2BodyDef bd;
+		bd.type = b2_staticBody;
+		bd.position.Set(0.0f, 0.0f);
+		b2Body* ground = m_world->CreateBody(&bd);
+
+		b2EdgeShape topGround;
+		b2EdgeShape botGround;
+		b2EdgeShape leftGround;
+		b2EdgeShape rightGround;
+		
+		topGround.Set(b2Vec2(-SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), b2Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
+		botGround.Set(b2Vec2(-SCREEN_WIDTH / 2, -SCREEN_HEIGHT / 2), b2Vec2(SCREEN_WIDTH / 2, -SCREEN_HEIGHT / 2));
+		leftGround.Set(b2Vec2(-SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), b2Vec2(-SCREEN_WIDTH / 2, -SCREEN_HEIGHT / 2));
+		rightGround.Set(b2Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), b2Vec2(SCREEN_WIDTH / 2, -SCREEN_HEIGHT / 2));
+
+		ground->CreateFixture(&topGround, 0.0f);
+		ground->CreateFixture(&botGround, 0.0f);
+		ground->CreateFixture(&leftGround, 0.0f);
+		ground->CreateFixture(&rightGround, 0.0f);
+		
+		Box2DSceneManager::GetInstance()->LoadData();
+		Box2DSceneManager::GetInstance()->m_objectList.at(0)->RenderBox2D(m_world);
+
+	}
+
+	void KeyboardUp(int key)
+	{
+		switch (key)
+		{
+		case GLFW_KEY_D:
+			Box2DSceneManager::GetInstance()->m_objectList.at(0)->m_body->SetAngularVelocity(0.0);
+			break;
+		case GLFW_KEY_A:
+			Box2DSceneManager::GetInstance()->m_objectList.at(0)->m_body->SetAngularVelocity(-0.0);
+			break;
+		}
+	}
+
+	void Keyboard(int key)
+	{
+		switch (key)
+		{
+		case GLFW_KEY_D:
+			Box2DSceneManager::GetInstance()->m_objectList.at(0)->m_body->SetAngularVelocity(1.0);
+			break;
+		case GLFW_KEY_A:
+			Box2DSceneManager::GetInstance()->m_objectList.at(0)->m_body->SetAngularVelocity(-1.0);
+			break;
+		
+		}
+	}
+	int idx = 1;
+	void Step(Settings* settings)
+	{
+		
+		if (timeRenderEnemy == 200 )
+		{
+				for (int i = 0; i < MAX_ENEMY; i++)
+				{
+					if (Box2DSceneManager::GetInstance()->m_objectList.at(i + MAX_BULLET + 1)->m_isRender == false )
+					{
+						Box2DSceneManager::GetInstance()->m_objectList.at(i + MAX_BULLET + 1)->RenderBox2D(m_world);
+						//printf("%d\n", Box2DSceneManager::GetInstance()->m_objectList.at(i + MAX_BULLET + 1));
+						break;
+					}
+					//Box2DSceneManager::GetInstance()->m_objectList.at(i + MAX_BULLET + 1)->Update(m_world);
+				}		
+
+			timeRenderEnemy = 0;
+		}
+
+		timeRenderEnemy++;
+
+		if (Box2DSceneManager::GetInstance()->m_objectList.at(0)->m_isRender == false)
+		{
+			
+			if (Box2DSceneManager::GetInstance()->m_objectList.at(0)->m_life > 0)
+			{
+				timeRespawn++;
+				if (timeRespawn == 50)
+				{
+					Box2DSceneManager::GetInstance()->m_objectList.at(0)->RenderBox2D(m_world);
+				}
+			}
+			else
+			{
+				printf("Game over\n");
+
+			}
+		}
+
+		Test::Step(settings);
+		int tmp = 10 / FIRING_SPEED;
+		if (step % tmp == 0)
+		{
+			for (int i = 0; i < MAX_BULLET; i++)
+			{
+				if (Box2DSceneManager::GetInstance()->m_objectList.at(i+1)->m_isRender == false && Box2DSceneManager::GetInstance()->m_objectList.at(0)->m_isRender == true)
+				{
+					Box2DSceneManager::GetInstance()->m_objectList.at(i+1)->RenderBox2D(m_world);
+					//printf("%d\n", Box2DSceneManager::GetInstance()->m_objectList.at(i+1));
+					break;
+				}
+			}
+		}
+		step++;
+		const int32 k_maxNuke = 4;
+		b2Body* nuke[k_maxNuke];
+		int32 nukeCount = 0;
+		for (int32 i = 0; i < m_pointCount; ++i)
+		{
+			ContactPoint* point = m_points + i;
+
+			b2Body* body1 = point->fixtureA->GetBody();
+			b2Body* body2 = point->fixtureB->GetBody();
+			
+			
+	
+
+			bool isEdge = true;
+			for (int i = 0; i < MAX_BULLET + MAX_ENEMY + 1; i++)
+			{
+				if (Box2DSceneManager::GetInstance()->m_objectList.at(i)->m_body == body1)
+				{
+					for (int j = 0; j < MAX_BULLET + MAX_ENEMY + 1; j++) {
+						if (Box2DSceneManager::GetInstance()->m_objectList.at(j)->m_body == body2)
+						{
+							isEdge = false;
+							if ((i >= 0 && i < MAX_BULLET + 1) && (j > MAX_BULLET && j < MAX_BULLET + MAX_ENEMY + 1))
+							{
+								Box2DSceneManager::GetInstance()->m_objectList.at(i)->m_body = NULL;
+								nuke[nukeCount++] = body1;
+								Box2DSceneManager::GetInstance()->m_objectList.at(i)->m_isRender = false;
+								if (i == 0)
+								{
+									timeRespawn = 0;
+									Box2DSceneManager::GetInstance()->m_objectList.at(0)->m_life--;
+									//nuke[nukeCount++] = body1;
+									nuke[nukeCount++] = body2;
+									//Box2DSceneManager::GetInstance()->m_objectList.at(0)->m_hp -= Box2DSceneManager::GetInstance()->m_objectList.at(j)->m_hp;
+								}
+
+								Box2DSceneManager::GetInstance()->m_objectList.at(j)->m_hp -= Box2DSceneManager::GetInstance()->m_objectList.at(i)->m_hp;
+								if (Box2DSceneManager::GetInstance()->m_objectList.at(j)->m_hp <= 0) {
+									if (Box2DSceneManager::GetInstance()->m_objectList.at(MAX_BULLET + MAX_ENEMY + 1)->m_isRender == false)
+									{
+										Box2DSceneManager::GetInstance()->m_objectList.at(MAX_BULLET + MAX_ENEMY + 1)->posX = Box2DSceneManager::GetInstance()->m_objectList.at(j)->m_body->GetPosition().x;
+										Box2DSceneManager::GetInstance()->m_objectList.at(MAX_BULLET + MAX_ENEMY + 1)->posY = Box2DSceneManager::GetInstance()->m_objectList.at(j)->m_body->GetPosition().y;
+										Box2DSceneManager::GetInstance()->m_objectList.at(MAX_BULLET + MAX_ENEMY + 1)->RenderBox2D(m_world);
+									}
+									Box2DSceneManager::GetInstance()->m_objectList.at(j)->m_body = NULL;
+									nuke[nukeCount++] = body2;
+									Box2DSceneManager::GetInstance()->m_objectList.at(j)->m_isRender = false;
+								}
+
+							}
+							else if ((j >= 0 && j < MAX_BULLET + 1) && (i > MAX_BULLET && i < MAX_BULLET + MAX_ENEMY + 1))
+							{
+								Box2DSceneManager::GetInstance()->m_objectList.at(j)->m_body = NULL;
+								nuke[nukeCount++] = body2;
+								Box2DSceneManager::GetInstance()->m_objectList.at(j)->m_isRender = false;
+								if (j == 0)
+								{
+									timeRespawn = 0;
+									Box2DSceneManager::GetInstance()->m_objectList.at(0)->m_life--;
+									nuke[nukeCount++] = body2;
+									//nuke[nukeCount++] = body1;
+									//Box2DSceneManager::GetInstance()->m_objectList.at(0)->m_hp -= Box2DSceneManager::GetInstance()->m_objectList.at(i)->m_hp;
+								}
+
+								Box2DSceneManager::GetInstance()->m_objectList.at(i)->m_hp -= Box2DSceneManager::GetInstance()->m_objectList.at(j)->m_hp;
+								if (Box2DSceneManager::GetInstance()->m_objectList.at(i)->m_hp <= 0) {
+									if (Box2DSceneManager::GetInstance()->m_objectList.at(MAX_BULLET + MAX_ENEMY + 1)->m_isRender == false)
+									{
+										Box2DSceneManager::GetInstance()->m_objectList.at(MAX_BULLET + MAX_ENEMY + 1)->posX = Box2DSceneManager::GetInstance()->m_objectList.at(i)->m_body->GetPosition().x;
+										Box2DSceneManager::GetInstance()->m_objectList.at(MAX_BULLET + MAX_ENEMY + 1)->posY = Box2DSceneManager::GetInstance()->m_objectList.at(i)->m_body->GetPosition().y;
+										Box2DSceneManager::GetInstance()->m_objectList.at(MAX_BULLET + MAX_ENEMY + 1)->RenderBox2D(m_world);
+									}
+									
+									
+									Box2DSceneManager::GetInstance()->m_objectList.at(i)->m_body = NULL;
+									nuke[nukeCount++] = body1;
+									Box2DSceneManager::GetInstance()->m_objectList.at(i)->m_isRender = false;
+								}
+
+							}
+
+							
+
+							break;
+						}
+					}
+					break;
+				}
+
+			}
+
+			if (isEdge == true)
+			{
+				for (int i = 0; i < MAX_BULLET + MAX_ENEMY + 2; i++)
+				{
+					if (Box2DSceneManager::GetInstance()->m_objectList.at(i)->m_body == body2)
+					{
+						if (i == 0)
+						{
+							timeRespawn = 0;
+							Box2DSceneManager::GetInstance()->m_objectList.at(0)->m_life--;
+						}
+						Box2DSceneManager::GetInstance()->m_objectList.at(i)->m_body = NULL;
+						nuke[nukeCount++] = body2;
+						//nuke[nukeCount++] = body1;
+						Box2DSceneManager::GetInstance()->m_objectList.at(i)->m_isRender = false;
+					}
+				}
+			}
+			
+				
+				if (nukeCount != 0)
+					idx--;
+
+				if (nukeCount == k_maxNuke)
+				{
+					break;
+				}
+			}
+			
+		
+
+		std::sort(nuke, nuke + nukeCount);
+
+		// Destroy the bodies, skipping duplicates.
+		int32 i = 0;
+		while (i < nukeCount)
+		{
+			b2Body* b = nuke[i++];
+			while (i < nukeCount && nuke[i] == b)
+			{
+				++i;
+			}
+
+			if (b != m_bomb)
+			{
+				m_world->DestroyBody(b);
+				b = NULL;
+			}
+		}
+
+
+
+
+	
+		
+		
+
+	}
+
+	static Test* Create()
+	{
+		return new AddPair;
+	}
+};
+
+#endif

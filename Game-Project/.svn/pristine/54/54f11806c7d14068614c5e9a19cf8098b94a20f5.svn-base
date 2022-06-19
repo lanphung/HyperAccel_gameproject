@@ -1,0 +1,42 @@
+﻿  imgui_impl_glfw_gl3.cpp
+  imgui_draw.cpp
+  imgui_demo.cpp
+  imgui.cpp
+  TestEntries.cpp
+c:\users\gameloft\desktop\new folder (5)\box2d-master (1)\box2d-master\testbed\tests\verticalstack.h(168): warning C4101: 'nuke': unreferenced local variable
+  Object.cpp
+  Item.cpp
+  Enemy.cpp
+  Bullet.cpp
+  Test.cpp
+  DebugDraw.cpp
+  Generating Code...
+  Compiling...
+  bulletboss.cpp
+  BulletType1.cpp
+  Box2DSceneManager.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  UpgradeBullet.cpp
+  MainCharacter.cpp
+  EnemyRectangle.cpp
+  EnemyCircle.cpp
+  Main.cpp
+  window.c
+  win32_window.c
+  win32_tls.c
+  win32_time.c
+  win32_monitor.c
+  win32_joystick.c
+  win32_init.c
+  wgl_context.c
+  vulkan.c
+  monitor.c
+  input.c
+  init.c
+  egl_context.c
+  context.c
+  glad.c
+  Generating Code...
+  Testbed.vcxproj -> C:\Users\Gameloft\Desktop\New folder (5)\Box2D-master (1)\Box2D-master\Build\x64\Debug\MyProgram\Testbed.exe
+  Testbed.vcxproj -> C:\Users\Gameloft\Desktop\New folder (5)\Box2D-master (1)\Box2D-master\Build\x64\Debug\MyProgram\Testbed.pdb (Full PDB)

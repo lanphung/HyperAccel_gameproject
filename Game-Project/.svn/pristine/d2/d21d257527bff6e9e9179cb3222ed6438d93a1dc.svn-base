@@ -1,0 +1,61 @@
+#include "BulletType1.h"
+
+
+
+BulletType1::BulletType1()
+{
+	m_body = NULL;
+	m_type = 3;
+	m_isRender = false;
+}
+
+
+BulletType1::~BulletType1()
+{
+}
+
+void BulletType1::RenderBox2D(b2World *world) {
+	if (m_body != NULL)
+	{
+		world->DestroyBody(m_body);
+		m_body = NULL;
+	}
+	m_hp = hp;
+	m_isRender = true;
+	b2CircleShape shape;
+	shape.m_radius = radius;
+
+	b2FixtureDef fd;
+	fd.shape = &shape;
+	fd.density = 0.00001f;
+	fd.filter.categoryBits = k_bulletCategory;
+	fd.filter.maskBits = k_bulletMask;
+
+	b2BodyDef bd;
+	bd.type = b2_dynamicBody;
+	bd.bullet = true;
+	/*bd.position.Set(Box2DSceneManager::GetInstance()->m_objectList.at(0)->m_body->GetPosition().x, Box2DSceneManager::GetInstance()->m_objectList.at(0)->m_body->GetPosition().y + 10);
+	b2Body* body = world->CreateBody(&bd);
+	m_body = body;
+	m_body->CreateFixture(&fd);
+	m_body->SetGravityScale(0);
+	body->SetLinearVelocity(b2Vec2(0.0f, 100.0f));*/
+
+	float angle = Box2DSceneManager::GetInstance()->m_objectList.at(0)->m_body->GetAngle();
+	
+	
+		bd.position.Set(2*cos(angle),2*sin(angle));
+		b2Body* body = world->CreateBody(&bd);
+		m_body = body;
+		m_body->CreateFixture(&fd);
+		m_body->SetGravityScale(0);
+		
+		
+		{
+			b2Vec2 x = b2Vec2(cos(angle), sin(angle));
+			x.Normalize();
+			x.x *= 30;
+			x.y *= 30;
+			body->SetLinearVelocity(x);
+		}
+}

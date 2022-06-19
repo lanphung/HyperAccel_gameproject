@@ -1,0 +1,11 @@
+attribute vec4 a_posLcube;
+
+varying vec4 TexCoords;
+
+uniform mat4 u_wvp;
+
+void main()
+{
+	gl_Position = u_wvp * a_posLcube;
+	TexCoords = a_posLcube;
+}

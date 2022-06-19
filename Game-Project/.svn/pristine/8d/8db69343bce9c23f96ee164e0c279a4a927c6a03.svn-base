@@ -1,0 +1,56 @@
+#include "EnemyCircle.h"
+#include "time.h"
+
+#define SCREEN_WIDTH 120
+#define SCREEN_HEIGHT 160
+EnemyCircle::EnemyCircle(float radius)
+{
+	this->radius = radius;
+	m_type = 2;
+	m_isRender = false;
+	circle.m_radius = this->radius;
+	circleBD.type = b2_dynamicBody;
+	
+	circleFD.shape = &circle;
+	circleFD.density = 100.0f;
+	circleFD.filter.categoryBits = k_enemyCategory;
+	circleFD.filter.maskBits = k_enemyMask;
+}
+
+EnemyCircle::~EnemyCircle()
+{
+
+}
+
+
+void EnemyCircle::RenderBox2D(b2World *world)
+{
+	//circleBD.position.Set(RandomFloat(-SCREEN_WIDTH / 2 + radius, SCREEN_WIDTH / 2 - radius), RandomFloat(-SCREEN_HEIGHT / 2 + radius, SCREEN_HEIGHT / 2 - radius));
+	//circleBD.linearVelocity = Enemy::trajectory.at(rand() % Enemy::trajectory.size());
+
+	srand(time(NULL));
+	c = rand() % 4 + 1;
+	if (c == 1)
+	{
+		circleBD.position.Set(RandomFloat(-SCREEN_WIDTH / 2 + radius, SCREEN_WIDTH / 2 - radius), RandomFloat(SCREEN_HEIGHT / 2 - 30 , SCREEN_HEIGHT / 2 - radius));
+	}
+	if (c == 2)
+	{
+		circleBD.position.Set(RandomFloat(-SCREEN_WIDTH / 2 + radius, SCREEN_WIDTH / 2 - radius), RandomFloat(-SCREEN_HEIGHT / 2 + radius, -SCREEN_HEIGHT / 2 + 30));
+	}
+	if (c == 3)
+	{
+		circleBD.position.Set(RandomFloat(-SCREEN_WIDTH / 2 + radius, -SCREEN_WIDTH / 2 + 30), RandomFloat(-SCREEN_HEIGHT / 2 + 30, SCREEN_HEIGHT / 2 - 30));
+	}
+	if (c == 4)
+	{
+		circleBD.position.Set(RandomFloat(SCREEN_WIDTH / 2 - 30, SCREEN_WIDTH / 2 - radius), RandomFloat(-SCREEN_HEIGHT / 2 + 30, SCREEN_HEIGHT / 2 - 30));
+	}
+
+	m_hp = hp;
+	
+	m_isRender = true;
+	m_body = world->CreateBody(&circleBD);
+	//m_body->SetLinearVelocity(Enemy::trajectory.at(rand() % Enemy::trajectory.size()));
+	m_body->CreateFixture(&circleFD);
+}

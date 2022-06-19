@@ -1,0 +1,13 @@
+#pragma once
+#define MAX_RANGE_WIDTH 128
+#define MAX_RANGE_HEIGHT 95
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 95
+#define MAX_UPGRADE 1
+#define MAX_BULLET 8
+#define MAX_ENEMYRECTANGLE 10
+#define MAX_ENEMYCIRCLE 10
+#define MAX_ENEMYBULLET 5
+#define FIRING_SPEED 0.5
+#define LASER_DAMAGE 3.0
+#define LASER_RANGE 40.0

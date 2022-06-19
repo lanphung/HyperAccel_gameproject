@@ -1,0 +1,34 @@
+#include "MainCharacter.h"
+
+
+
+MainCharacter::MainCharacter()
+{
+	m_type = 1;
+	m_isRender = false;
+}
+
+
+MainCharacter::~MainCharacter()
+{
+}
+
+void MainCharacter::RenderBox2D(b2World *world) {
+	m_hp = hp;
+	m_isRender = true;
+	b2PolygonShape shape;
+	shape.SetAsBox(width, height);
+	b2FixtureDef fd;
+	fd.shape = &shape;
+	//fd.density = 100.0f;
+	fd.filter.categoryBits = k_mainCategory;
+	fd.filter.maskBits = k_mainMask;
+	b2BodyDef bd;
+	bd.type = b2_dynamicBody;
+	bd.position.Set(posX, posY);
+	b2Body* body = world->CreateBody(&bd);
+	m_body = body;
+	m_body->CreateFixture(&fd);
+	m_body->SetGravityScale(0);
+}
+

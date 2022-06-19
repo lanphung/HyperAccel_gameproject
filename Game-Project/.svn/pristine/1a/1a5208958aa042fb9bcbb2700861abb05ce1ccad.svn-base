@@ -1,0 +1,115 @@
+#include "ResourceManager.h"
+ResourceManager * ResourceManager::ms_pInstance = NULL;
+
+ResourceManager::ResourceManager()
+{
+}
+
+ResourceManager::~ResourceManager()
+{
+}
+
+ResourceManager & ResourceManager::ResourceLoading()
+{
+	
+	FILE* pFile;
+	FILE* pModelFile;
+	char File[100];
+	int ID;
+	int count = 0;
+	pFile = fopen("../Resources/Managers/RM_SPRITE.txt", "r");
+	//Loading models
+	fscanf(pFile, "#Models: %d\n", &ModelCount);
+	for (int c = 0; c < ModelCount; c++)
+	{
+		Model* NewModel = new Model();
+		fscanf(pFile, "ID %d\n", &ID);
+		fscanf(pFile, "FILE %s\n", File);
+		pModelFile = fopen(File, "r");
+		fscanf(pModelFile, "NrVertices: %d\n", &NewModel->VerticesCount);
+		for (int i = 0; i < NewModel->VerticesCount; i++)
+		{
+			fscanf(pModelFile, "   %d. ", &ID);
+			fscanf(pModelFile, "pos:[%f, %f, %f]; ", &NewModel->Vertices[i].pos.x, &NewModel->Vertices[i].pos.y, &NewModel->Vertices[i].pos.z);
+			fscanf(pModelFile, "norm:[%f, %f, %f]; ", &NewModel->Vertices[i].normal.x, &NewModel->Vertices[i].normal.y, &NewModel->Vertices[i].normal.z);
+			fscanf(pModelFile, "binorm:[%f, %f, %f]; ", &NewModel->Vertices[i].binormal.x, &NewModel->Vertices[i].binormal.y, &NewModel->Vertices[i].binormal.z);
+			fscanf(pModelFile, "tgt:[%f, %f, %f]; ", &NewModel->Vertices[i].tangent.x, &NewModel->Vertices[i].tangent.y, &NewModel->Vertices[i].tangent.z);
+			fscanf(pModelFile, "uv:[%f, %f];\n", &NewModel->Vertices[i].uv.x, &NewModel->Vertices[i].uv.y);
+
+		}
+		fscanf(pModelFile, "NrIndices: %d\n", &NewModel->IndicesCount);
+		count = 0;
+		while (count < NewModel->IndicesCount)
+		{
+			fscanf(pModelFile, "%d. %d, %d, %d\n; ", &ID, &NewModel->Idx[count], &NewModel->Idx[count + 1], &NewModel->Idx[count + 2]);
+			count += 3;
+		}
+		Models.push_back(NewModel);
+	}
+	fscanf(pFile, "\n");
+	//Loading textures
+	fscanf(pFile, "#2D Textures: %d\n", &TwoDTexturesCount);
+	for (int c = 0; c < TwoDTexturesCount; c++)
+	{
+		Texture* NewTexture = new Texture;
+		NewTexture->TexUnit = c;
+		fscanf(pFile, "ID %d\n", &ID);
+		fscanf(pFile, "FILE %s\n", &NewTexture->Tex);
+		fscanf(pFile, "TILING %s\n", &NewTexture->TILING);
+		Textures.push_back(NewTexture);
+	}
+
+	fscanf(pFile, "\n");	
+	//Loading shaders
+	fscanf(pFile, "#Shaders: %d\n", &ShadersCount);
+	char state[20];
+	for (int c = 0; c < ShadersCount; c++)
+	{
+		Shaders* NewShader = new Shaders;
+		ShadersList.push_back(NewShader);
+		fscanf(pFile, "ID %d\n", &ID);
+		fscanf(pFile, "VS %s\n", &ShadersList.at(c)->fileVS);
+		fscanf(pFile, "FS %s\n", &ShadersList.at(c)->fileFS);
+		fscanf(pFile, "STATES %d\n", &ShadersList.at(c)->StatesCount);
+		for (int i = 0; i < ShadersList.at(c)->StatesCount; i++)
+		{ 
+			fscanf(pFile, "STATE %s\n", &state);
+			ShadersList.at(c)->STATES[i] = (char*)state;
+		}
+
+	}
+	fclose(pFile);
+	fclose(pModelFile);
+	return *this;
+}
+
+void ResourceManager::CleanUp()
+{
+	for (int i = 0; i < ResourceManager::GetInstance()->ModelCount; i++)
+	{
+		delete Models.at(i)->Vertices;
+		Models.at(i)->Vertices = NULL;
+
+		delete Models.at(i)->Idx;
+		Models.at(i)->Idx = NULL;
+
+		delete Models.at(i);
+		Models.at(i) = NULL;
+	}
+	for (int i = 0; i < ResourceManager::GetInstance()->TwoDTexturesCount; i++)
+	{
+		Textures.at(i) = NULL;
+		delete Textures.at(i);
+	}
+	for (int i = 0; i < ResourceManager::GetInstance()->CubeTexturesCount; i++)
+	{
+		CubeTextures.at(i) = NULL;
+		delete CubeTextures.at(i);
+	}
+	for (int i = 0; i < ResourceManager::GetInstance()->ShadersCount; i++)
+	{
+		ShadersList.at(i) = NULL;
+		delete ShadersList.at(i);
+	}
+	ResourceManager::DestroyInstance();
+}

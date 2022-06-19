@@ -1,0 +1,12 @@
+﻿Build started 8/19/2019 11:15:43 PM.
+     1>Project "C:\Users\anhbi\Desktop\PROJECT1\PROJECT\GameProject\TrainingFramework.vcxproj" on node 2 (ClCompile target(s)).
+     1>ClCompile:
+         D:\New folder\VC\bin\CL.exe /c /I"D:\Game-Project\PROJECT\Include\SFML" /IC:\Users\anhbi\Desktop\PROJECT1\PROJECT\\Include /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Release\\" /Fd"Release\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt PhysicsEngine.cpp
+         PhysicsEngine.cpp
+     1>c:\users\anhbi\desktop\project1\project\gameproject\Game.h(37): warning C4150: deletion of pointer to incomplete type 'StateManager'; no destructor called
+         c:\users\anhbi\desktop\project1\project\gameproject\Game.h(16): note: see declaration of 'StateManager'
+     1>Done Building Project "C:\Users\anhbi\Desktop\PROJECT1\PROJECT\GameProject\TrainingFramework.vcxproj" (ClCompile target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.47

@@ -1,0 +1,17 @@
+precision mediump float;
+
+uniform sampler2D u_texture;
+uniform vec3 camPos;
+uniform vec3 LightColor;
+uniform vec3 LightPos;
+uniform float ambientStrength;
+uniform vec3 ambientColor;
+
+varying vec2 v_uv;
+varying vec3 v_posL;
+varying vec3 v_normal;
+varying vec3 fragPos;
+void main()
+{
+	gl_FragColor = texture2D(u_texture, v_uv);
+}

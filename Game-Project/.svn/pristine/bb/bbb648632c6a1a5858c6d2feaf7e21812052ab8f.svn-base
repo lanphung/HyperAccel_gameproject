@@ -1,0 +1,18 @@
+attribute vec3 a_posL;
+attribute vec2 a_uv;
+attribute vec3 a_normal;
+
+uniform mat4 u_wvp, u_w, u_v;
+uniform int iSpriteFrame;
+
+varying vec2 v_uv;
+varying vec3 v_posL;
+varying vec3 v_normal;
+varying vec3 fragPos;
+void main()
+{
+	vec4 posL = vec4(a_posL, 2.0);
+	gl_Position = u_wvp * posL;
+	v_uv = vec2((float(iSpriteFrame) + a_uv.x) * 0.2, a_uv.y*0.5);
+}
+   

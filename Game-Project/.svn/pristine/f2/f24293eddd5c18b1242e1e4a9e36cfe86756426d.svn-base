@@ -1,0 +1,59 @@
+#pragma once
+#include "SceneManager.h"
+#include "ResourceManager.h"
+#include "KeyManager.h"
+#include "TouchManager.h"
+#include "define.h"
+#include "WVP.h"
+#include <iostream>
+#include "../Utilities/utilities.h"
+class StateManager;
+
+class Game
+{
+protected:
+	Game() {}
+	virtual ~Game() {}
+	Game(const Game &) {}
+	Game& operator =(const Game &) {}
+
+public:
+	static void CreateInstance()
+	{
+		if (ms_pInstance == NULL)
+			ms_pInstance = new Game;
+	}
+	static Game * GetInstance()
+	{
+		return ms_pInstance;
+	}
+	static void DestroyInstance()
+	{
+		if (ms_pInstance)
+		{
+			delete ms_pInstance;
+			ms_pInstance = NULL;
+		}
+	}
+	inline void CleanUp()
+	{
+		
+		delete state_;
+		state_ = NULL;
+		DestroyInstance();
+	}
+	///////////////////////////////////
+	void Init(ESContext *esContext);
+	///////////////////////////////////
+	///////////////////////////////////
+	void Render(ESContext *esContext);
+	///////////////////////////////////
+	void handleInput(int key, ESContext *esContext);
+	virtual void _stateupdate(ESContext *esContext, float deltaTime);
+	///////////////////////////////////
+	float currentTime=0;
+	Matrix orthoMat;
+	StateManager* state_;
+protected:
+	static Game * ms_pInstance;
+};

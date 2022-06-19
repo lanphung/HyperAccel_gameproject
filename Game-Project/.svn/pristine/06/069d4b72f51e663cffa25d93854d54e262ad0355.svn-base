@@ -1,0 +1,16 @@
+#pragma once
+#include "Testbed\ProjectTest\Object.h"
+#include <vector>
+
+using namespace std;
+
+class Enemy : public Object
+{
+public:
+	Enemy();
+	~Enemy();
+	
+	static vector <b2Vec2> trajectory;
+	virtual void RenderBox2D(b2World* world) {};
+	void Update(b2World *world);
+};

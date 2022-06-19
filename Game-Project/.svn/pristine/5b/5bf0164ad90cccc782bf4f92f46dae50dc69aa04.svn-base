@@ -1,0 +1,168 @@
+#include "Box2DSceneManager.h"
+
+#define MAX_UPGRADE 1
+#define MAX_BULLET 8
+#define MAX_ENEMY 5
+#define SCREEN_WIDTH 90
+#define SCREEN_HEIGHT 160
+
+Box2DSceneManager::Box2DSceneManager()
+{
+}
+
+
+Box2DSceneManager::~Box2DSceneManager()
+{
+}
+
+void Box2DSceneManager::LoadData() {
+	FILE *fp = fopen("./ProjectTest/Box2D_SM.txt", "r");
+	if (fp == NULL) {
+		printf("the fuck");
+		return;
+	}
+	fscanf(fp, "#Objects: %d\n\n", &m_objectNum);
+	for (int i = 0; i < m_objectNum; i++)
+	{
+		int id;
+		char type[50];
+		fscanf(fp, "ID %d %s\n", &id, type);
+		if (strcmp(type, "MainCharacter") == 0)
+		{
+			Object *o = new MainCharacter();
+			fscanf(fp, "POS:  %f %f\n", &o->posX, &o->posY);
+			fscanf(fp, "SIZE: %f %f\n", &o->width, &o->height);
+			fscanf(fp, "LIFE: %d\n", &o->m_life);
+			fscanf(fp, "HP: %f\n\n", &o->m_hp);
+			m_objectList.push_back(o);
+		}
+		if (id == 1)
+		{
+			char hitbox[50];
+			fscanf(fp, "HITBOX: %s\n", hitbox);
+			if (strcmp(hitbox, "CIRCLE") == 0)
+			{
+				float radius;
+				float dame;
+				fscanf(fp, "RADIUS: %f\n", &radius);
+				fscanf(fp, "DAME: %f\n\n", &dame);
+				if (strcmp(hitbox, "CIRCLE") == 0)
+				{
+					for (int i = 0; i < MAX_BULLET; i++)
+					{
+						Bullet *b = new BulletType1();
+						b->radius = radius;
+						b->hp = dame;
+						m_objectList.push_back(b);
+					}
+				}
+			}
+		}
+		if (id == 2)
+		{
+			char hitbox[50];
+			fscanf(fp, "HITBOX: %s\n", hitbox);
+			if (strcmp(hitbox, "CIRCLE") == 0)
+			{
+				float radius;
+				float hp;
+				fscanf(fp, "RADIUS: %f\n", &radius);
+				fscanf(fp, "HP: %f\n\n", &hp);
+				for (int i = 0; i < MAX_ENEMY; i++)
+				{
+					Object* enemyCircle = new EnemyCircle(radius);
+					enemyCircle->hp = hp;
+					m_objectList.push_back(enemyCircle);
+				}
+			}
+			if (strcmp(hitbox, "RECTANGLE") == 0)
+			{
+				float width, height;
+				float hp;
+				fscanf(fp, "SIZE %f %f\n", &width, &height);
+				fscanf(fp, "HP: %f\n\n", &hp);
+				for (int i = 0; i < MAX_ENEMY; i++)
+				{
+					Object* enemyRectangle = new EnemyRectangle(width,height);
+					enemyRectangle->hp = hp;
+					m_objectList.push_back(enemyRectangle);
+				}
+			}
+		}
+		if (id == 3)
+		{
+			char hitbox[50];
+			fscanf(fp, "HITBOX: %s\n", hitbox);
+			if (strcmp(hitbox, "RECTANGLE") == 0)
+			{
+				float width, height;
+				float hp;
+				fscanf(fp, "SIZE %f %f\n", &width, &height);
+				fscanf(fp, "HP: %f\n\n", &hp);
+				for (int i = 0; i < 2; i++)
+				{
+					Object* enemyRectangle = new bulletboss(width, height);
+					enemyRectangle->hp = hp;
+					m_objectList.push_back(enemyRectangle);
+				}
+			}
+		}
+		if (id == 4)
+		{
+			char hitbox[50];
+			fscanf(fp, "HITBOX: %s\n", hitbox);
+			if (strcmp(hitbox, "CIRCLE") == 0)
+			{
+				float radius;
+				fscanf(fp, "RADIUS: %f\n\n", &radius);
+				for (int i = 0; i < MAX_UPGRADE; i++)
+				{
+					UpgradeBullet* upgradeBullet = new UpgradeBullet();
+					upgradeBullet->radius = radius;
+					Box2DSceneManager::GetInstance()->m_objectList.push_back(upgradeBullet);
+				}
+			}
+		}
+	}
+	fclose(fp);
+
+	//FILE *fp2 = fopen("./PhysicEditor/enemy1.txt", "r");
+	//if (fp2 == NULL)
+	//{
+	//	printf("load enemy1 fail");
+	//	return;
+	//}
+	//float x, y;
+	//b2Vec2 vertices[79];
+	//for (int i = 0; i < 79; i++)
+	//{
+	//	fscanf(fp2, "%f, %f\n", &x, &y);
+	//	vertices[i].Set(x, y);
+	//}
+	//fclose(fp2);
+
+	//Object* enemy1 = new Enemy();
+	//b2BodyDef batBody;
+	//batBody.type = b2_dynamicBody;
+	//batBody.position.Set(0.0f, 0.0f);
+	//b2PolygonShape batShape;
+	//batShape.Set(vertices, 47);
+	//b2FixtureDef batFixture;
+	//batFixture.shape = &batShape;
+	//batFixture.density = 100.0f;
+	//batFixture.filter.categoryBits = k_enemyCategory;
+	//batFixture.filter.maskBits = k_enemyMask;
+
+	//enemy1->m_body = world->CreateBody(&batBody);
+	//enemy1->m_body->CreateFixture(&batFixture);
+}
+
+Box2DSceneManager* Box2DSceneManager::s_Instance = 0;
+Box2DSceneManager* Box2DSceneManager::GetInstance() {
+	if (!s_Instance) {
+		s_Instance = new Box2DSceneManager();
+
+	}
+	return s_Instance;
+
+}

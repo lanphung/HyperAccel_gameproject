@@ -1,0 +1,11 @@
+#pragma once
+#include "Object.h"
+class MainCharacter : public Object
+{
+public:
+	MainCharacter();
+	~MainCharacter();
+	void RenderBox2D(b2World *world);
+	
+};
+

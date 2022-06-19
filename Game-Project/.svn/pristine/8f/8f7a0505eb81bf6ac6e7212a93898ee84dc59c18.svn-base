@@ -1,0 +1,49 @@
+#include "Shaders.h"
+
+int Shaders::Init(char * fileVertexShader, char * fileFragmentShader)
+{
+	vertexShader = esLoadShader(GL_VERTEX_SHADER, fileVertexShader);
+
+	if (vertexShader == 0)
+		return -1;
+
+	fragmentShader = esLoadShader(GL_FRAGMENT_SHADER, fileFragmentShader);
+
+	if (fragmentShader == 0)
+	{
+		glDeleteShader(vertexShader);
+		return -2;
+	}
+
+	program = esLoadProgram(vertexShader, fragmentShader);
+
+	//finding location of uniforms / attributes
+	positionAttribute = glGetAttribLocation(program, "a_posL");	
+	normalLoc = glGetAttribLocation(program, "a_normal");
+	uvAttribute = glGetAttribLocation(program, "a_uv");
+	positionAttributeCube = glGetAttribLocation(program, "a_posLcube");
+	uvAttribute_cube = glGetAttribLocation(program, "TexCoords");
+	iTextureLoc[0]  = glGetUniformLocation(program, "u_texture");
+	iTextureLoc[1] = glGetUniformLocation(program, "u_texture1");
+	iTextureLoc[2] = glGetUniformLocation(program, "u_texture2");
+	iTextureLoc[3] = glGetUniformLocation(program, "u_texture3");
+	iTextureLoc[4] = glGetUniformLocation(program, "u_texture4");
+	wvpMatLoc	 = glGetUniformLocation(program, "u_wvp");
+	wMatLoc = glGetUniformLocation(program, "u_w");
+	vMatLoc = glGetUniformLocation(program, "u_v");
+	uTimeLoc = glGetUniformLocation(program, "u_Time");
+	camPosloc = glGetUniformLocation(program, "camPos");
+	LightColorLoc = glGetUniformLocation(program, "LightColor");
+	LightPosLoc = glGetUniformLocation(program, "LightPos");
+	ambientColorLoc = glGetUniformLocation(program, "ambientColor");
+	ambientStrengthLoc = glGetUniformLocation(program, "ambientStrength");
+	iSpriteFrameLoc = glGetUniformLocation(program, "iSpriteFrame");
+	return 0;
+}
+
+Shaders::~Shaders()
+{
+	glDeleteProgram(program);
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
+}

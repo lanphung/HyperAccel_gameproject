@@ -1,0 +1,59 @@
+#pragma once
+#include "Object.h"
+#include "p2Log.h"
+#include <SFML/Audio.hpp>
+#include "GameMusic.h"
+#include "GameSound.h"
+
+class SoundEngine
+{
+protected:
+	SoundEngine() : m_volumeMusic(60), m_volumeSound(60) {}
+	~SoundEngine() {}
+	SoundEngine(const SoundEngine &) {}
+	SoundEngine& operator =(const SoundEngine &) {}
+
+public:
+
+	static void CreateInstance()
+	{
+		if (ms_pInstance == NULL)
+			ms_pInstance = new SoundEngine;
+	}
+	static SoundEngine * GetInstance()
+	{
+		return ms_pInstance;
+	}
+	static void DestroyInstance()
+	{
+		if (ms_pInstance)
+		{
+			RELEASE(ms_pInstance);
+		}
+	}
+	sf::Music musicPlayer;
+	void playSound() {}
+	bool playMusic(char* fiePath, bool isLoop);
+
+	void Init(char* filePath);
+	void Update();
+	void CleanUp();
+	void SetVolumeMusic(float volume) { m_volumeMusic = volume; }
+	float GetVolumeMusic() { return m_volumeMusic; }
+	void VolumeMusicUp() { m_volumeMusic = m_volumeMusic + 4 > 100 ? 100 : m_volumeMusic + 4; }
+	void VolumeMusicDow() { m_volumeMusic = m_volumeMusic - 4 < 0 ? 0 : m_volumeMusic - 4; }
+	void SetVolumeSound(float volume) { m_volumeSound = volume; }
+	float GetVolumeSound() { return m_volumeSound; }
+	void VolumeSoundUp() { m_volumeSound = m_volumeSound + 4 > 100 ? 100 : m_volumeSound + 4; }
+	void VolumeSoundDow() { m_volumeSound = m_volumeSound - 4 < 0 ? 0 : m_volumeSound - 4; }
+	std::vector<GameMusic*> m_aMusic;
+	std::vector<GameSound*> m_aSound;
+
+private:
+	float m_volumeMusic;
+	float m_volumeSound;
+
+protected:
+	static SoundEngine * ms_pInstance;
+
+};

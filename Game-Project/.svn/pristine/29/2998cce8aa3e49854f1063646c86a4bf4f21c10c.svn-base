@@ -1,0 +1,134 @@
+<<<<<<< .mine#include "EnemyL.h"
+
+EnemyL::EnemyL()
+{
+	enemyBodyDef.type = b2_dynamicBody;
+	enemyBodyDef.position.Set(0, 0);
+	enemyBodyDef.angle = 0;
+
+	e_polygon.SetAsBox(1.0f, 2.0f);
+
+	enemyFixtureDef.shape = &e_polygon;
+	enemyFixtureDef.density = 2;
+	health = 100.0f;
+}
+
+EnemyL::EnemyL(float32 positionX, float32 positionY)
+{
+	enemyBodyDef.type = b2_dynamicBody;
+	enemyBodyDef.position.Set(positionX, positionY);
+	enemyBodyDef.angle = 0;
+	
+	e_polygon.SetAsBox(1.0f, 2.0f);
+
+	enemyFixtureDef.shape = &e_polygon;
+	enemyFixtureDef.density = 2;	
+	health = 100.0f;
+}
+
+EnemyL::~EnemyL()
+{
+
+}
+
+void EnemyL::spawnEnemy(b2World* m_world)
+{
+	enemyBody = m_world->CreateBody(&enemyBodyDef);
+	enemyBody->CreateFixture(&enemyFixtureDef);
+}
+
+void EnemyL::takeDamage(float32 amountOfDamage)
+{
+	health -= amountOfDamage;
+	printf("Enemy take damage - Health: %f\n", health);
+	Die(enemyBody->GetWorld());
+}
+
+void EnemyL::Die(b2World* m_world)
+{
+	if (health <= 0.0f)
+	{
+		m_world->DestroyBody(enemyBody);
+		printf("Enemy Die - Health: %f\n", health);
+	}	
+}
+
+float32 EnemyL::getHealth()
+{
+	return health;
+}=======#include "EnemyL.h"
+
+EnemyL::EnemyL()
+{
+	enemyBodyDef.type = b2_dynamicBody;
+	enemyBodyDef.position.Set(0, 0);
+	enemyBodyDef.angle = 0;
+
+	e_polygon.SetAsBox(1.0f, 2.0f);
+
+	enemyFixtureDef.shape = &e_polygon;
+	enemyFixtureDef.density = 2;
+	health = 100.0f;
+	alive = true;
+}
+
+EnemyL::EnemyL(float32 positionX, float32 positionY)
+{
+	enemyBodyDef.type = b2_dynamicBody;
+	enemyBodyDef.position.Set(positionX, positionY);
+	enemyBodyDef.angle = 0;
+	
+	e_polygon.SetAsBox(1.0f, 2.0f);
+
+	enemyFixtureDef.shape = &e_polygon;
+	enemyFixtureDef.density = 2;	
+	health = 100.0f;
+	alive = true;
+}
+
+EnemyL::~EnemyL()
+{
+
+}
+
+void EnemyL::createEnemy(b2World* m_world)
+{
+	enemyBody = m_world->CreateBody(&enemyBodyDef);
+	enemyBody->CreateFixture(&enemyFixtureDef);
+}
+
+void EnemyL::spawnEnemy(b2World* m_world)
+{
+	alive = true;
+	health = 100.0f;
+	//printf("Enemy Respawn\n");
+	enemyBody = m_world->CreateBody(&enemyBodyDef);
+	enemyBody->CreateFixture(&enemyFixtureDef);
+}
+
+void EnemyL::takeDamage(float32 amountOfDamage)
+{
+	health -= amountOfDamage;
+	//printf("Enemy take damage - Health: %f\n", health);
+	Die(enemyBody->GetWorld());
+}
+
+void EnemyL::Die(b2World* m_world)
+{
+	if (health <= 0.0f)
+	{
+		alive = false;
+		m_world->DestroyBody(enemyBody);		
+		printf("Enemy Die - Health: %f\n", health);
+	}
+}
+
+float32 EnemyL::getHealth()
+{
+	return health;
+}
+
+bool EnemyL::isAlive()
+{
+	return alive;
+}>>>>>>> .theirs

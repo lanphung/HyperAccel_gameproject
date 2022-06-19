@@ -1,0 +1,54 @@
+#pragma once
+#include <stdio.h>
+#include "../Utilities/utilities.h"
+#include "Vertex.h"
+#include "Model.h"
+#include "Texture.h"
+#include "CubeTexture.h"
+#include "Shaders.h"
+#include <vector>
+
+
+class ResourceManager
+{
+protected:
+	ResourceManager();
+	~ResourceManager();
+	/*implicit methods exist for the copy constructor and operator= and we want to forbid calling them.*/
+	ResourceManager(const ResourceManager &) {}
+	ResourceManager& operator =(const ResourceManager &) {}
+public:
+	static void CreateInstance()
+	{
+		if (ms_pInstance == NULL)
+			ms_pInstance = new ResourceManager;
+	}
+	static ResourceManager * GetInstance()
+	{
+		return ms_pInstance;
+	}
+	static void DestroyInstance()
+	{
+		if (ms_pInstance)
+		{
+			delete ms_pInstance->CubeModel;
+			ms_pInstance->CubeModel = NULL;
+			delete ms_pInstance;
+			ms_pInstance = NULL;
+		}
+	}
+	ResourceManager & ResourceLoading();
+	int ModelCount;
+	int TwoDTexturesCount;
+	int CubeTexturesCount;
+	int ShadersCount;
+	std::vector <Model*> Models;
+	Vector4* CubeModel =  new Vector4;
+	std::vector <Texture*> Textures;
+	std::vector <CubeTexture*> CubeTextures;
+	std::vector <Shaders*> ShadersList;
+	void CleanUp();
+protected:
+	static ResourceManager * ms_pInstance;
+};
+

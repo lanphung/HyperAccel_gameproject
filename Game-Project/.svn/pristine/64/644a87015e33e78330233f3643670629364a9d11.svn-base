@@ -1,0 +1,34 @@
+#pragma once
+#include "../Utilities/utilities.h"
+#define __MAX_STATES 100
+
+class Shaders 
+{
+public:
+	GLuint program, vertexShader, fragmentShader;
+	char fileVS[100];
+	char fileFS[100];
+	int StatesCount;
+	char* STATES[__MAX_STATES];
+	GLint positionAttribute;
+	GLint positionAttributeCube;
+	GLint camPosloc;
+	GLint normalLoc;
+	GLint uvAttribute;
+	GLint uvAttribute_cube;
+	GLint wvpMatLoc;
+	GLint wMatLoc;
+	GLint vMatLoc;
+	GLint iTextureLoc[5];
+	GLint fireTextureLoc;
+	GLint fireMaskLoc;
+	GLint DisplTexLoc;
+	GLint uTimeLoc;
+	GLint LightColorLoc;
+	GLint LightPosLoc;
+	GLint ambientStrengthLoc;
+	GLint ambientColorLoc;
+	GLint iSpriteFrameLoc;
+	int Init(char * fileVertexShader, char * fileFragmentShader);
+	~Shaders();
+};

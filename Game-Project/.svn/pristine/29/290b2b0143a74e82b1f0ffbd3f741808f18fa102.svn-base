@@ -1,0 +1,38 @@
+#Models: 1
+ID 0
+FILE ../Resources/Models/sprite.nfg
+
+#2D Textures: 2
+ID 0
+FILE ../Resources/Textures/ship.tga
+TILING REPEAT
+
+ID 1
+FILE ../Resources/Textures/ship.tga
+TILING REPEAT
+
+#Shaders: 4
+ID 0
+VS ../Resources/Shaders/TriangleShaderVS.vs
+FS ../Resources/Shaders/TriangleShaderFS.fs
+STATES 2
+STATE DEPTH_TEST
+STATE ALPHA
+ID 1
+VS ../Resources/Shaders/CubeMappingVS.vs
+FS ../Resources/Shaders/CubeMappingFS.fs
+STATES 2
+STATE DEPTH_TEST
+STATE ALPHA
+ID 2
+VS ../Resources/Shaders/uvDispShaderVS.vs
+FS ../Resources/Shaders/uvDispShaderFS.fs
+STATES 2
+STATE DEPTH_TEST
+STATE ALPHA
+ID 3
+VS ../Resources/Shaders/MulTexShaderVS.vs
+FS ../Resources/Shaders/MulTexShaderFS.fs
+STATES 2
+STATE DEPTH_TEST
+STATE ALPHA

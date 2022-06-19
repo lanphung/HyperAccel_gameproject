@@ -1,0 +1,17 @@
+#pragma once
+#include "Box2DSceneManager.h"
+#include"Enemy.h"
+#include"EnemyCircle.h"
+
+class bulletboss : public Enemy
+{
+public:
+		bulletboss(float width,float height);
+	    ~bulletboss();
+
+
+		b2BodyDef rectangleBD;
+		b2PolygonShape rectangle;
+		b2FixtureDef rectangleFD;
+		void RenderBox2D(b2World *world);
+};

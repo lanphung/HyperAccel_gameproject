@@ -1,0 +1,535 @@
+#include "stdafx.h"
+#include "SoundEngine.h"
+#include "StateManager.h"
+StateManager* StateManager::handleInput(Game& state, int m_key, Vector2 m_touch)
+{
+	return NULL;
+}
+
+///////////////////////////GS_WELCOME/////////////////////////////
+
+
+void GS_WELCOME::enter(Game& state, ESContext *esContext)
+{
+	SoundEngine::GetInstance()->playMusic("WELCOME_BG");
+}
+
+void GS_WELCOME::_stateupdate(ESContext * esContext, float deltaTime)
+{
+
+}
+
+void GS_WELCOME::_render(ESContext * esContext)
+{
+	SceneManager::GetInstance()->Objects.at(3)->Draw();
+	SceneManager::GetInstance()->Objects.at(4)->Draw();
+	eglSwapBuffers(esContext->eglDisplay, esContext->eglSurface);
+}
+
+StateManager* GS_WELCOME::handleInput(Game& state, int m_key, Vector2 m_touch)
+{
+
+		TextRender::GetIntance()->SetFont("../Resources/Fonts/SaucerBB.ttf");
+		return  new GS_MAINMENU();
+}
+
+///////////////////////////GS_GAMEPLAY/////////////////////////////
+
+void GS_GAMEPLAY::enter(Game& state, ESContext *esContext)
+{
+	SoundEngine::GetInstance()->playMusic("LVL_01");
+}
+
+StateManager* GS_GAMEPLAY::handleInput(Game& state, int m_key, Vector2 m_touch)
+{
+	int k = SceneManager::GetInstance()->CButtons.at(5)->InButton(m_touch);
+	if (k == 1)
+	{
+		ISPause = 1;
+	}
+	if (TouchManager::GetInstance()->isTouchedDown)
+	{
+		Vector2 touch = TouchManager::GetInstance()->m_touch;
+		float angle = TouchManager::GetInstance()->AngleCalc(Vector2(SceneManager::GetInstance()->Objects.at(1)->Pos.x, SceneManager::GetInstance()->Objects.at(1)->Pos.y), touch);
+		PhysicsEngine::GetInstance()->TouchDown(angle);
+	}
+	else
+	{
+		PhysicsEngine::GetInstance()->TouchUp();
+	}
+	if (ISPause == 1)
+	{
+		int h = SceneManager::GetInstance()->CButtons.at(7)->InButton(m_touch);
+		if (h == 1)
+		{
+			//printf("aha");
+			SoundEngine::GetInstance()->VolumeMusicDow();
+		}
+		h = SceneManager::GetInstance()->CButtons.at(8)->InButton(m_touch);
+		if (h == 1)
+		{
+			SoundEngine::GetInstance()->VolumeMusicUp();
+		}
+		h = SceneManager::GetInstance()->CButtons.at(9)->InButton(m_touch);
+		if (h == 1)
+		{
+			SoundEngine::GetInstance()->VolumeSoundDow();
+		}
+		h = SceneManager::GetInstance()->CButtons.at(10)->InButton(m_touch);
+		if (h == 1)
+		{
+			SoundEngine::GetInstance()->VolumeSoundUp();
+		}
+		int k = SceneManager::GetInstance()->CButtons.at(6)->InButton(m_touch);
+		if (k == 1)
+		{
+			ISPause = 0;
+		}
+		k = SceneManager::GetInstance()->CButtons.at(4)->InButton(m_touch);
+		if (k == 1)
+		{
+			ISPause = 0;
+			PhysicsEngine::GetInstance()->release();
+			PhysicsEngine::DestroyInstance();
+			PhysicsEngine::CreateInstance();
+			PhysicsEngine::GetInstance()->Init();
+		}
+		k = SceneManager::GetInstance()->CButtons.at(11)->InButton(m_touch);
+		if (k == 1)
+		{
+			TextRender::GetIntance()->SetFont("../Resources/Fonts/SaucerBB.ttf");
+			return new GS_MAINMENU();
+		}
+	}
+	
+	//}
+	return NULL;
+}
+
+void GS_GAMEPLAY::_stateupdate(ESContext *esContext, float deltaTime)
+{
+	if ((DWORD)deltaTime < 1.0 / LIMIT_FPS) Sleep(1.0 / LIMIT_FPS - (DWORD)deltaTime);
+	if (!PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(0)->m_isRender) return;
+	
+	if (ISPause != 1)
+	{
+		PhysicsEngine::GetInstance()->Update(deltaTime);
+		PhysicsEngine::GetInstance()->Key(KeyManager::GetInstance()->GetKey(), deltaTime,KeyManager::GetInstance()->m_Isdown);
+	}
+	if (PhysicsEngine::GetInstance()->isDetonated)
+	{
+		Game::GetInstance()->psystem->AddEmiter(fPoint(SceneManager::GetInstance()->Objects.at(1)->Pos.x / SCREEN_CENTER_W, SceneManager::GetInstance()->Objects.at(1)->Pos.y / SCREEN_CENTER_H), EmitterType::EMITTER_TYPE_WAVE_1);
+		SoundEngine::GetInstance()->playSound("BOMB");
+		PhysicsEngine::GetInstance()->isDetonated = false;
+	}
+
+	SceneManager::GetInstance()->Update(deltaTime);
+	//if (Game::GetInstance()->currentTime - SceneManager::GetInstance()->latestTime >= SPF)
+	//{
+	//	SceneManager::GetInstance()->Objects.at(1)->currentFrame += 1;
+	//	SceneManager::GetInstance()->Objects.at(1)->currentFrame %= 5;
+	//	SceneManager::GetInstance()->latestTime = Game::GetInstance()->currentTime;
+	//}
+	if (PhysicsEngine::GetInstance()->lazerTower->enemyTarget != NULL && PhysicsEngine::GetInstance()->lazerTower->enemyTarget->m_body != NULL &&  PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(0)->m_body != NULL)
+	{
+		b2Vec2 P_laze = PhysicsEngine::GetInstance()->lazerTower->enemyTarget->m_body->GetPosition();
+		b2Vec2 p_main = PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(0)->m_body->GetPosition();
+		b2Vec2 Sub = P_laze - p_main;
+		b2Vec2 Sum = P_laze + p_main;
+		SceneManager::GetInstance()->Objects.at(9)->SetPosition(5 * Sum.x, 5 * Sum.y);
+		SceneManager::GetInstance()->Objects.at(9)->SetScale(Vector2(5 * Sub.x, 3));
+		float32 angl_main = PhysicsEngine::GetInstance()->lazerTower->getLazerTowerAngle();
+		SceneManager::GetInstance()->Objects.at(9)->SetRotation(angl_main + DEG_2_RAD(90));
+	}
+
+
+	if (PhysicsEngine::GetInstance()->lazerTower->missile->enemyTarget != NULL && PhysicsEngine::GetInstance()->lazerTower->missile->enemyTarget->m_body != NULL &&  PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(0)->m_body != NULL)
+	{
+		//b2Vec2 P_target = 10.0 * PhysicsEngine::GetInstance()->lazerTower->missile->enemyTarget->m_body->GetPosition();
+		b2Vec2 P_missile = 10.0f * PhysicsEngine::GetInstance()->lazerTower->missile->m_body->GetPosition();
+		SceneManager::GetInstance()->Objects.at(15)->SetPosition(P_missile.x, P_missile.y);
+		//float32 angl_main = TouchManager::GetInstance()->AngleCalc(Vector2(P_target.x, P_target.y), Vector2(P_missile.x, P_missile.y) );
+		//SceneManager::GetInstance()->Objects.at(15)->SetRotation(angl_main);
+		float P_angle = PhysicsEngine::GetInstance()->lazerTower->missile->m_body->GetAngle();
+		SceneManager::GetInstance()->Objects.at(15)->SetRotation(P_angle+1.57f);
+	}
+
+	std::list<Emitter*>::const_iterator it;
+	for (it = Game::GetInstance()->psystem->emittersList.begin(); it != Game::GetInstance()->psystem->emittersList.end(); ++it)
+	{
+		if ((*it)->type == EMITTER_TYPE_FIRE || (*it)->type == EMITTER_TYPE_SHIELD || (*it)->type == EMITTER_TYPE_WAVE_1)
+		{
+			(*it)->MoveEmitter(fPoint((SceneManager::GetInstance()->Objects.at(1)->Pos.x) / SCREEN_CENTER_W, (SceneManager::GetInstance()->Objects.at(1)->Pos.y) / SCREEN_CENTER_H));;
+			if ((*it)->type == EMITTER_TYPE_FIRE)
+			{
+				(*it)->angleRange.x = (180 - RAD_2_DEG(SceneManager::GetInstance()->Objects.at(1)->Rot.z)) - 15;
+				(*it)->angleRange.y = (180 - RAD_2_DEG(SceneManager::GetInstance()->Objects.at(1)->Rot.z)) + 15;
+			}
+		}
+	}
+}
+
+void GS_GAMEPLAY::_render(ESContext *esContext)
+{
+	SceneManager::GetInstance()->Draws();
+	SceneManager::GetInstance()->Objects.at(0)->Draw(); ///////Background
+	
+	//pause
+	SceneManager::GetInstance()->CButtons.at(5)->Draw();
+
+	///////////////////////Rendering enemies////////////////////////////
+
+	float32 angl; b2Vec2 p_main; Vector2 scale;
+
+	///main
+	if (PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(0)->m_isRender && PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(0)->hp > 0)
+	{
+		p_main = PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(0)->m_body->GetPosition();
+		SceneManager::GetInstance()->Objects.at(1)->SetPosition(10 * p_main.x , 10 * p_main.y);
+		scale = Vector2(10 * PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(0)->width, 10 * PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(0)->height);
+		SceneManager::GetInstance()->Objects.at(1)->SetScale(scale);
+		angl = PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(0)->m_body->GetAngle();
+		SceneManager::GetInstance()->Objects.at(1)->SetRotation(angl);
+		SceneManager::GetInstance()->Objects.at(1)->Draw();
+	}
+	// enemycircle
+	for (int i = 1; i < 1 + MAX_ENEMYCIRCLE; i++)
+	{
+		if (PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->m_isRender)
+		{
+			b2Vec2 hi = PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->m_body->GetPosition();
+			SceneManager::GetInstance()->Objects.at(7)->SetPosition(10 * hi.x, 10 * hi.y);
+			scale = Vector2(10 * PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->width, 10 * PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->height);
+			SceneManager::GetInstance()->Objects.at(7)->SetScale(scale);
+			SceneManager::GetInstance()->Objects.at(7)->Draw();
+		}
+
+	}
+	
+	// enemy2
+	
+	for (int i = MAX_ENEMYCIRCLE+1; i < MAX_ENEMYCIRCLE + 1 + MAX_ENEMYRECTANGLE; i++)
+	{
+		if (PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->m_isRender)
+		{
+			b2Vec2 hi = PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->m_body->GetPosition();
+			angl = PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->m_body->GetAngle();
+			SceneManager::GetInstance()->Objects.at(2)->SetPosition(10 * hi.x, 10 * hi.y);
+			scale = Vector2(10 * PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->width, 10 * PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->height);
+			SceneManager::GetInstance()->Objects.at(2)->SetScale(scale);
+			SceneManager::GetInstance()->Objects.at(2)->Draw();
+		}
+
+	}
+	//////////////bulet boss
+	int boss = MAX_ENEMYCIRCLE + 1 + MAX_ENEMYRECTANGLE + MAX_ENEMYBULLET;
+	for (int i = MAX_ENEMYCIRCLE + MAX_ENEMYRECTANGLE + 1; i < MAX_ENEMYCIRCLE + 1 + MAX_ENEMYRECTANGLE + MAX_ENEMYBULLET; i++)
+	{
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		if (PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->m_isRender && PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(boss)->m_isRender)
+		{
+			b2Vec2 hi = PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->m_body->GetPosition();
+			SceneManager::GetInstance()->Objects.at(13)->SetPosition(10 * hi.x, 10 * hi.y);
+			scale = Vector2(10 * PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->width, 10 * PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->height);
+			SceneManager::GetInstance()->Objects.at(13)->SetScale(scale);	
+			SceneManager::GetInstance()->Objects.at(13)->Draw();
+			
+		}
+		
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+	//////////////boss
+
+	if (PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(boss)->m_isRender &&PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(boss)->m_body != NULL)
+	{
+		p_main = PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(boss)->m_body->GetPosition();
+		SceneManager::GetInstance()->Objects.at(12)->SetPosition(10 * p_main.x, 10 * p_main.y);
+		scale = Vector2(10 * PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(boss)->width, 10 * PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(boss)->height);
+		SceneManager::GetInstance()->Objects.at(12)->SetScale(scale);
+		angl = PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(boss)->m_body->GetAngle();
+		SceneManager::GetInstance()->Objects.at(12)->SetRotation(angl);
+		SceneManager::GetInstance()->Objects.at(12)->Draw();
+
+	}
+	//itembom
+
+	for (int i = boss + 1; i <= boss + MAX_ITEMBOM; i++)
+	{
+		if (PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->m_isRender)
+		{
+			b2Vec2 hi = PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->m_body->GetPosition();
+			SceneManager::GetInstance()->Objects.at(7)->SetPosition(10 * hi.x, 10 * hi.y);
+			scale = Vector2(10 * PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->width, 10 * PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->height);
+			SceneManager::GetInstance()->Objects.at(7)->SetScale(scale);
+			SceneManager::GetInstance()->Objects.at(7)->Draw();
+		}
+
+	}
+	//itemhp
+
+	for (int i = boss + 1 + MAX_ITEMBOM; i <= boss + 1 + MAX_ITEMBOM + MAX_ITEMHP; i++)
+	{
+		if (PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->m_isRender)
+		{
+			b2Vec2 hi = PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->m_body->GetPosition();
+			SceneManager::GetInstance()->Objects.at(7)->SetPosition(10 * hi.x, 10 * hi.y);
+			scale = Vector2(10 * PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->width, 10 * PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->height);
+			SceneManager::GetInstance()->Objects.at(7)->SetScale(scale);
+			SceneManager::GetInstance()->Objects.at(7)->Draw();
+		}
+
+	}
+	// newenemy 
+	for (int i = boss  + MAX_ITEMBOM + MAX_ITEMHP + 1; i < boss + 1 + MAX_ITEMBOM + MAX_ITEMHP + MAX_NEWENEMY; i++)
+	{
+		if (PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->m_isRender)
+		{
+			b2Vec2 hi = PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->m_body->GetPosition();
+			SceneManager::GetInstance()->Objects.at(2)->SetPosition(10 * hi.x, 10 * hi.y);
+			scale = Vector2(10 * PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->width, 10 * PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->height);
+			SceneManager::GetInstance()->Objects.at(2)->SetScale(scale);
+			SceneManager::GetInstance()->Objects.at(2)->Draw();
+		}
+	}
+
+	//bulletenemy
+	for (int i = boss  + MAX_ITEMBOM + MAX_ITEMHP + MAX_NEWENEMY + 1; i < boss + 1 + MAX_ITEMBOM + MAX_ITEMHP + MAX_NEWENEMY + MAX_BULLETNEWENEMY; i++)
+	{
+		if (PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->m_isRender)
+		{
+			b2Vec2 hi = PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->m_body->GetPosition();
+			SceneManager::GetInstance()->Objects.at(7)->SetPosition(10 * hi.x, 10 * hi.y);
+			scale = Vector2(10 * PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->width, 10 * PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(i)->height);
+			SceneManager::GetInstance()->Objects.at(7)->SetScale(scale);
+			SceneManager::GetInstance()->Objects.at(7)->Draw();
+		}
+	}
+
+	//bullet
+
+
+	for (int i = 0; i < MAX_BULLET; i++)
+	{
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		if (PhysicsEngine::GetInstance()->m_b2D->m_bullet.at(i)->m_isRender && PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(0)->m_isRender)
+		{
+			b2Vec2 hi = PhysicsEngine::GetInstance()->m_b2D->m_bullet.at(i)->m_body->GetPosition();
+			SceneManager::GetInstance()->Objects.at(8)->SetPosition(10 * hi.x, 10 * hi.y);
+			SceneManager::GetInstance()->Objects.at(8)->SetRotation(PhysicsEngine::GetInstance()->m_b2D->m_bullet.at(i)->bulletAngle);
+			SceneManager::GetInstance()->Objects.at(8)->Draw();
+		}
+		
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+
+	//laser and missle
+	
+	if (PhysicsEngine::GetInstance()->lazerTower->enemyTarget != NULL && PhysicsEngine::GetInstance()->lazerTower->enemyTarget->m_body != NULL &&PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(0)->m_body != NULL)
+	{
+		SceneManager::GetInstance()->Objects.at(9)->Draw();
+	}
+	if (PhysicsEngine::GetInstance()->lazerTower->missile->enemyTarget != NULL && PhysicsEngine::GetInstance()->lazerTower->missile->enemyTarget->m_body != NULL &&  PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(0)->m_body != NULL)
+	{
+		//std::cout << "yes" << std::endl;
+		SceneManager::GetInstance()->Objects.at(15)->Draw();
+	}
+
+	// GUI(bomb,hp.shield)
+	char vbomb[15];
+	itoa(PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(0)->bom, vbomb, 10);
+	TextRender::GetIntance()->RenderString(vbomb, Vector4(1.0f, 1.0f, 1.0f, 1.0f), -580, 410, 1.6f, 1.6f);
+	char vhp[15];
+	itoa(PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(0)->m_hp, vhp, 10);
+	TextRender::GetIntance()->RenderString(vhp, Vector4(1.0f, 1.0f, 1.0f, 1.0f), -580, 350, 1.6f, 1.6f);
+	char vshield[15];
+	itoa(PhysicsEngine::GetInstance()->m_b2D->m_objectList.at(0)->GetShield(), vshield, 10);
+	TextRender::GetIntance()->RenderString(vshield, Vector4(1.0f, 1.0f, 1.0f, 1.0f), -580, 290, 1.6f, 1.6f);
+	Game::GetInstance()->psystem->PostUpdate();
+	Game::GetInstance()->psystem->Update(Game::GetInstance()->dt);
+	if (ISPause == 1)
+	{
+		
+		SceneManager::GetInstance()->Objects.at(11)->SetPosition(300, 0);
+		SceneManager::GetInstance()->Objects.at(14)->Draw();
+		//SceneManager::GetInstance()->Objects.at(10)->Draw();
+		SceneManager::GetInstance()->Objects.at(11)->Draw();
+		SceneManager::GetInstance()->CButtons.at(6)->Draw();
+		SceneManager::GetInstance()->CButtons.at(7)->Draw();
+		SceneManager::GetInstance()->CButtons.at(8)->Draw();
+		SceneManager::GetInstance()->CButtons.at(9)->Draw();
+		SceneManager::GetInstance()->CButtons.at(10)->Draw();
+		SceneManager::GetInstance()->Objects.at(11)->SetPosition(-300, 0);
+		SceneManager::GetInstance()->Objects.at(11)->Draw();
+		//SceneManager::GetInstance()->CButtons.at(4)->Draw();
+		//SceneManager::GetInstance()->CButtons.at(11)->Draw();
+		TextRender::GetIntance()->RenderString("OPTIONS", Vector4(1.0f, 1.0f, 0.0f, 1.0f), 200, 150, 2.0f, 2.0f);
+		TextRender::GetIntance()->RenderString("Music", Vector4(1.0f, 1.0f, 0.0f, 1.0f), 250, 50, 1.3f, 1.3f);
+		char vmusic[15]; char vsound[15];
+		itoa(SoundEngine::GetInstance()->GetVolumeMusic(), vmusic, 10);
+		TextRender::GetIntance()->RenderString(vmusic, Vector4(1.0f, 1.0f, 0.0f, 1.0f), 275, 0, 1.3f, 1.3f);
+		TextRender::GetIntance()->RenderString("SFX", Vector4(1.0f, 1.0f, 0.0f, 1.0f), 250, -120, 1.3f, 1.3f);
+		itoa(SoundEngine::GetInstance()->GetVolumeSound(), vsound, 10);
+		TextRender::GetIntance()->RenderString(vsound, Vector4(1.0f, 1.0f, 0.0f, 1.0f), 275, -170, 1.3f, 1.3f);
+		TextRender::GetIntance()->RenderString("OPTIONS", Vector4(1.0f, 1.0f, 0.0f, 1.0f), -400, 150, 2.0f, 2.0f);
+		TextRender::GetIntance()->RenderString("New game", Vector4(1.0f, 1.0f, 0.0f, 1.0f), -400, 25, 1.3f, 1.3f);
+		TextRender::GetIntance()->RenderString("Main menu", Vector4(1.0f, 1.0f, 0.0f, 1.0f), -400, -145, 1.3f, 1.3f);
+	}
+	eglSwapBuffers(esContext->eglDisplay, esContext->eglSurface);
+
+}
+
+void GS_MAINMENU::enter(Game & state, ESContext * esContext)
+{
+
+	SceneManager::GetInstance()->Objects.at(3)->Draw();
+	SceneManager::GetInstance()->Objects.at(6)->Draw();
+	SceneManager::GetInstance()->CButtons.at(0)->Draw();
+	TextRender::GetIntance()->RenderString("Play ", Vector4(1.0f, 1.0f, 1.0f, 1.0f), -50.0f, 100.0f, 1.0f, 1.0f);
+	SceneManager::GetInstance()->CButtons.at(1)->Draw();
+	TextRender::GetIntance()->RenderString("Options", Vector4(1.0f, 1.0f, 1.0f, 1.0f), -50.0f, 35.0f, 1.0f, 1.0f);
+	SceneManager::GetInstance()->CButtons.at(2)->Draw();
+	TextRender::GetIntance()->RenderString("Credit ", Vector4(1.0f, 1.0f, 1.0f, 1.0f), -50.0f, -35.0f, 1.0f, 1.0f);
+	SceneManager::GetInstance()->CButtons.at(3)->Draw();
+	TextRender::GetIntance()->RenderString("Quit ", Vector4(1.0f, 1.0f, 1.0f, 1.0f), -50.0f, -105.0f, 1.0f, 1.0f);
+	TextRender::GetIntance()->RenderString("THE AMAZING GAME", Vector4(0.0f, 1.0f, 1.0f, 1.0f), -250.0f, 300.0f, 2.0f, 2.0f);
+	eglSwapBuffers(esContext->eglDisplay, esContext->eglSurface);
+
+}
+
+StateManager * GS_MAINMENU::handleInput(Game & state, int m_key, Vector2 m_touch)
+{
+	int k = SceneManager::GetInstance()->CButtons.at(0)->InButton(m_touch);
+	if (k == 1)
+	{
+		PhysicsEngine::GetInstance()->release();
+		PhysicsEngine::DestroyInstance();
+		PhysicsEngine::CreateInstance();
+		PhysicsEngine::GetInstance()->Init();
+		TextRender::GetIntance()->SetFont("../Resources/Fonts/digifaw.ttf");
+		return new GS_GAMEPLAY();
+	}
+	k = SceneManager::GetInstance()->CButtons.at(1)->InButton(m_touch);
+	if (k == 1)
+	{
+		TextRender::GetIntance()->SetFont("../Resources/Fonts/digifaw.ttf");
+		return new GS_OPTION();
+	}
+	k = SceneManager::GetInstance()->CButtons.at(2)->InButton(m_touch);
+	if (k == 1)
+	{
+		TextRender::GetIntance()->SetFont("../Resources/Fonts/MaroonedOnMarsBB.ttf");
+		return new GS_CREDITS();
+	}
+
+	k = SceneManager::GetInstance()->CButtons.at(3)->InButton(m_touch);
+	if (k == 1)
+		std::exit(0);
+}
+
+void GS_MAINMENU::_stateupdate(ESContext * esContext, float deltaTime)
+{
+
+}
+
+void GS_MAINMENU::_render(ESContext * esContext)
+{
+
+}
+
+void GS_OPTION::enter(Game & state, ESContext * esContext)
+{
+
+}
+
+StateManager * GS_OPTION::handleInput(Game & state, int m_key, Vector2 m_touch)
+{
+	int h = SceneManager::GetInstance()->CButtons.at(7)->InButton(m_touch);
+	if (h == 1)
+	{
+		//printf("aha");
+		SoundEngine::GetInstance()->VolumeMusicDow();
+	}
+	 h = SceneManager::GetInstance()->CButtons.at(8)->InButton(m_touch);
+	if (h == 1)
+	{
+		SoundEngine::GetInstance()->VolumeMusicUp();
+	}
+	 h = SceneManager::GetInstance()->CButtons.at(9)->InButton(m_touch);
+	if (h == 1)
+	{
+		SoundEngine::GetInstance()->VolumeSoundDow();
+	}
+      h = SceneManager::GetInstance()->CButtons.at(10)->InButton(m_touch);
+	if (h == 1)
+	{
+		SoundEngine::GetInstance()->VolumeSoundUp();
+	}
+	int k = SceneManager::GetInstance()->CButtons.at(6)->InButton(m_touch);
+	if (k == 1)
+	{
+		TextRender::GetIntance()->SetFont("../Resources/Fonts/SaucerBB.ttf");
+		return new GS_MAINMENU();
+	}
+}
+
+void GS_OPTION::_stateupdate(ESContext * esContext, float deltaTime)
+{
+	SoundEngine::GetInstance()->Update();
+}
+
+void GS_OPTION::_render(ESContext * esContext)
+{
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	SceneManager::GetInstance()->Objects.at(11)->SetPosition(300, 0);
+	SceneManager::GetInstance()->Objects.at(10)->Draw();
+	SceneManager::GetInstance()->Objects.at(11)->Draw();
+	SceneManager::GetInstance()->CButtons.at(6)->Draw();
+	SceneManager::GetInstance()->CButtons.at(7)->Draw();
+	SceneManager::GetInstance()->CButtons.at(8)->Draw();
+	SceneManager::GetInstance()->CButtons.at(9)->Draw();
+	SceneManager::GetInstance()->CButtons.at(10)->Draw();
+	
+	TextRender::GetIntance()->RenderString("OPTIONS", Vector4(1.0f, 1.0f, 0.0f, 1.0f), 200, 150, 2.0f, 2.0f);
+
+	TextRender::GetIntance()->RenderString("Music", Vector4(1.0f, 1.0f, 0.0f, 1.0f), 250, 50, 1.3f, 1.3f);
+	char vmusic[15]; char vsound[15];
+	itoa(SoundEngine::GetInstance()->GetVolumeMusic(), vmusic, 10);
+	TextRender::GetIntance()->RenderString(vmusic, Vector4(1.0f, 1.0f, 0.0f, 1.0f),275, 0, 1.3f, 1.3f);
+	TextRender::GetIntance()->RenderString("Sound", Vector4(1.0f, 1.0f, 0.0f, 1.0f), 250, -120, 1.3f, 1.3f);
+	itoa(SoundEngine::GetInstance()->GetVolumeSound(), vsound, 10);
+	TextRender::GetIntance()->RenderString(vsound, Vector4(1.0f, 1.0f, 0.0f, 1.0f), 275, -170, 1.3f, 1.3f);
+	eglSwapBuffers(esContext->eglDisplay, esContext->eglSurface);
+}
+
+void GS_CREDITS::enter(Game & state, ESContext * esContext)
+{
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	SceneManager::GetInstance()->Objects.at(5)->Draw();
+	SceneManager::GetInstance()->CButtons.at(6)->Draw();
+	TextRender::GetIntance()->RenderString("CREDITS!", Vector4(1.0f, 1.0f, 0.0f, 1.0f), -100, 200, 2.0f, 2.0f);
+	TextRender::GetIntance()->RenderString("This is THE most amazing game ever, made by", Vector4(1.0f, 1.0f, 1.0f, 1.0f), -200, 100, 1.5f, 1.5f);
+	TextRender::GetIntance()->RenderString("Team 2's interns : Lan, Nghia, Duc, Long ", Vector4(1.0f, 1.0f, 1.0f, 1.0f), -200, 30, 1.5f, 1.5f);
+	TextRender::GetIntance()->RenderString("Yes it is and please don't argue with that ;) ", Vector4(1.0f, 1.0f, 1.0f, 1.0f), -200, -40, 1.5f, 1.5f);
+	TextRender::GetIntance()->RenderString("Best of fun!", Vector4(1.0f, 1.0f, 1.0f, 1.0f), -200, -110, 1.5f, 1.5f);
+	TextRender::GetIntance()->RenderString("Hanoi, 08/24/19", Vector4(1.0f, 1.0f, 1.0f, 1.0f), -50, -250, 1.5f, 1.5f);
+	eglSwapBuffers(esContext->eglDisplay, esContext->eglSurface);
+}
+
+StateManager * GS_CREDITS::handleInput(Game & state, int m_key, Vector2 m_touch)
+{
+	int k = SceneManager::GetInstance()->CButtons.at(6)->InButton(m_touch);
+	if (k == 1)
+	{
+		TextRender::GetIntance()->SetFont("../Resources/Fonts/SaucerBB.ttf");
+		return new GS_MAINMENU();
+	}
+}
+
+void GS_CREDITS::_stateupdate(ESContext * esContext, float deltaTime)
+{
+}
+
+void GS_CREDITS::_render(ESContext * esContext)
+{
+
+}

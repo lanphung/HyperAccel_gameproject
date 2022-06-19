@@ -1,0 +1,86 @@
+#pragma once
+#include "SceneManager.h"
+#include "ResourceManager.h"
+#include "KeyManager.h"
+#include "TouchManager.h"
+#include "define.h"
+#include "WVP.h"
+#include <iostream>
+#include "../Utilities/utilities.h"
+
+
+class Game
+{
+protected:
+	Game() {}
+	virtual ~Game() {}
+	Game(const Game &) {}
+	Game& operator =(const Game &) {}
+
+public:
+	static void CreateInstance()
+	{
+		if (ms_pInstance == NULL)
+			ms_pInstance = new Game;
+	}
+	static Game * GetInstance()
+	{
+		return ms_pInstance;
+	}
+	static void DestroyInstance()
+	{
+		if (ms_pInstance)
+		{
+			delete ms_pInstance;
+			ms_pInstance = NULL;
+		}
+	}
+	///////////////////////////////////
+	void Init()
+	{
+		glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+		ResourceManager::CreateInstance();
+		SceneManager::CreateInstance();
+		KeyManager::CreateInstance();
+		TouchManager::CreateInstance();
+		ResourceManager::GetInstance()->ResourceLoading();
+		SceneManager::GetInstance()->SceneLoading();
+		SceneManager::GetInstance()->Init();
+		WVP::CreateInstance();
+		WVP::GetInstance()->createViewMat();
+		GLfloat x = Globals::screenWidth/2;
+		GLfloat y = Globals::screenHeight / 2;
+		orthoMat.SetOrtho(-x, x,  y,  -y,  -1,  1);
+	}
+	///////////////////////////////////
+	void Update(ESContext *esContext, float deltaTime) 
+	{
+		currentTime += deltaTime;
+		SceneManager::GetInstance()->Update(deltaTime);
+		if (currentTime - SceneManager::GetInstance()->latestTime >= SPF)
+		{
+			SceneManager::GetInstance()->Objects.at(1)->currentFrame += 1;
+			SceneManager::GetInstance()->Objects.at(1)->currentFrame %= 5;
+			SceneManager::GetInstance()->Objects.at(2)->currentFrame += 1;
+			SceneManager::GetInstance()->Objects.at(2)->currentFrame %= 5;
+			SceneManager::GetInstance()->latestTime = currentTime;
+		}
+		if (deltaTime < 1.0 / LIMIT_FPS) Sleep(1.0 / LIMIT_FPS - (DWORD)deltaTime);
+	}
+	///////////////////////////////////
+	void Render(ESContext *esContext)
+	{
+		glDisable(GL_DEPTH_TEST);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glEnable(GL_BLEND);									//fire effect
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		SceneManager::GetInstance()->Draws();
+		eglSwapBuffers(esContext->eglDisplay, esContext->eglSurface);
+	}
+	///////////////////////////////////
+	float currentTime=0;
+	Matrix orthoMat;
+protected:
+	static Game * ms_pInstance;
+
+};

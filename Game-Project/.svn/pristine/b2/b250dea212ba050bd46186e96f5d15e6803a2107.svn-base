@@ -1,0 +1,138 @@
+#Models: 1
+ID 0
+FILE ../Resources/Models/sprite.nfg
+
+#2D Textures: 37
+ID 0
+FILE ../Resources/Textures/backgroundSpaceOfficial.tga
+
+ID 1
+FILE ../Resources/Textures/startscreen.tga
+
+ID 2
+FILE ../Resources/Textures/menu-background.tga
+
+ID 3
+FILE ../Resources/Textures/Credit_background.tga
+
+ID 4
+FILE ../Resources/Textures/option.tga
+
+ID 5
+FILE ../Resources/Textures/mainship.tga
+
+ID 6
+FILE ../Resources/Textures/Alien-Battleship.tga
+
+ID 7
+FILE ../Resources/Textures/circle_enemy.tga
+
+ID 8
+FILE ../Resources/Textures/Alien-Mothership2.tga
+
+ID 9
+FILE ../Resources/Textures/light_03.tga
+
+ID 10
+FILE ../Resources/Textures/circle_03.tga
+
+ID 11
+FILE ../Resources/Textures/laser.tga
+
+ID 12
+FILE ../Resources/Textures/flame_04.tga
+
+ID 13
+FILE ../Resources/Textures/light_03.tga
+
+ID 14
+FILE ../Resources/Textures/fire_01.tga
+
+ID 15
+FILE ../Resources/Textures/fire_02.tga
+
+ID 16
+FILE ../Resources/Textures/missile.tga
+
+ID 17
+FILE ../Resources/Textures/button.tga
+
+ID 18
+FILE ../Resources/Textures/nghic1.tga
+
+ID 19
+FILE ../Resources/Textures/pause.tga
+
+ID 20
+FILE ../Resources/Textures/back.tga
+
+ID 21
+FILE ../Resources/Textures/play.tga
+
+ID 22
+FILE ../Resources/Textures/stop.tga
+
+ID 23
+FILE ../Resources/Textures/bn_msound.tga
+
+ID 24
+FILE ../Resources/Textures/buttondow.tga
+
+ID 25
+FILE ../Resources/Textures/buttonup.tga
+
+ID 26
+FILE ../Resources/Textures/circle_03-boss.tga
+
+ID 27
+FILE ../Resources/Textures/white.tga
+
+ID 28
+FILE ../Resources/Textures/HP_Bonus.tga
+
+ID 29
+FILE ../Resources/Textures/Rockets_Bonus.tga
+
+ID 30
+FILE ../Resources/Textures/health.tga
+
+ID 31
+FILE ../Resources/Textures/rocket.tga
+
+ID 32
+FILE ../Resources/Textures/shield.tga
+
+ID 33
+FILE ../Resources/Textures/clock.tga
+
+ID 34
+FILE ../Resources/Textures/rocket_explosion.tga
+
+ID 35 
+FILE ../Resources/Textures/texture_laser.tga
+
+ID 36
+FILE ../Resources/Textures/exhaust_01.tga
+
+#Shaders: 7
+ID 0
+VS ../Resources/Shaders/BGShaderVS.vs
+FS ../Resources/Shaders/BGShaderFS.fs
+ID 1
+VS ../Resources/Shaders/SpriteShaderVS.vs
+FS ../Resources/Shaders/SpriteShaderFS.fs
+ID 2
+VS ../Resources/Shaders/TitlesShaderVS.vs
+FS ../Resources/Shaders/TitlesShaderFS.fs
+ID 3
+VS ../Resources/Shaders/ButtonShaderVS.vs
+FS ../Resources/Shaders/ButtonShaderFS.fs
+ID 4
+VS ../Resources/Shaders/textVS.vs
+FS ../Resources/Shaders/textFS.fs
+ID 5
+VS ../Resources/Shaders/ParticleShaderVS.vs
+FS ../Resources/Shaders/ParticleShaderFS.fs
+ID 6
+VS ../Resources/Shaders/BlendShader.vs
+FS ../Resources/Shaders/BlendShader.fs

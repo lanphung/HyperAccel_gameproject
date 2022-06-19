@@ -1,0 +1,127 @@
+// TrainingFramework.cpp : Defines the entry point for the console application.
+//
+#include <conio.h>
+#include <iostream>
+#include <stddef.h>
+#include <Math.h>
+#include <vector>
+#include "stdafx.h"
+#include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
+#include "SceneManager.h"
+#include "ResourceManager.h"
+#include "Vertex.h"
+#include "Camera.h"
+#include "Shaders.h"
+#include "Shaders_cube.h"
+#include "Globals.h"
+#include "define.h"
+//#include "Box2D/Box2D.h"
+#define SPF 0.14
+int Frame = 0;
+float currentTime = 0;
+using namespace std;
+void Init ( ESContext *esContext )
+{
+	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+
+	ResourceManager::CreateInstance();
+	SceneManager::CreateInstance();
+	ResourceManager::GetInstance()->ResourceLoading();
+	SceneManager::GetInstance()->SceneLoading();
+	SceneManager::GetInstance()->Init();
+}
+
+void Draw ( ESContext *esContext )
+{
+	//DWORD start, end;
+	//start = GetTickCount();
+	// Render something here
+//	VideoDriver::GetInstance()->CleanScreen();
+	glEnable(GL_DEPTH_TEST);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_BLEND);									//fire effect
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	SceneManager::GetInstance()->Draws();
+	eglSwapBuffers(esContext->eglDisplay, esContext->eglSurface);
+	// Limit FPS
+	//end = GetTickCount();
+	//DWORD frameTime = end - start;
+	//if (frameTime < 1000.0 / LIMIT_FPS)
+	//	Sleep(1000 / LIMIT_FPS - frameTime);
+
+}
+
+void Update ( ESContext *esContext, float deltaTime )
+{
+	//std::cout << currentTime << std::endl;
+	currentTime += deltaTime;
+	SceneManager::GetInstance()->Update(deltaTime);
+	if (currentTime - SceneManager::GetInstance()->latestTime >= SPF)
+	{	
+		SceneManager::GetInstance()->Objects.at(0)->currentFrame = Frame;
+		SceneManager::GetInstance()->Objects.at(1)->currentFrame = Frame;
+		Frame = Frame + 1;
+		SceneManager::GetInstance()->latestTime = currentTime;
+	}
+		Frame %= 10;
+		if (deltaTime < 1.0 / LIMIT_FPS) Sleep(1.0 / LIMIT_FPS - (DWORD)deltaTime);
+}
+
+void Key ( ESContext *esContext, unsigned char key, bool bIsPressed)
+{
+	switch (key)
+	{
+	case 'W':
+
+		SceneManager::GetInstance()->Objects.at(0)->MoveForward();
+		break;
+	case 'S':
+
+		SceneManager::GetInstance()->Objects.at(0)->MoveBackward();
+		break;
+	case 'A':
+
+		SceneManager::GetInstance()->Objects.at(0)->MoveLeft();
+		break;
+	case 'D':
+		SceneManager::GetInstance()->Objects.at(0)->MoveRight();
+		break;
+	case 38: // Up arrow
+		break;
+	case 40: // Down arrow
+		break;
+	case 39: // Left arrow
+		SceneManager::GetInstance()->Objects.at(0)->RotLeft();
+		break;
+	case 37: // Right arrow
+		SceneManager::GetInstance()->Objects.at(0)->RotRight();
+		break;
+	}
+}
+
+void CleanUp()
+{
+	SceneManager::GetInstance()->CleanUp();
+	ResourceManager::GetInstance()->CleanUp();
+
+}
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	ESContext esContext;
+    esInitContext ( &esContext );
+	esCreateWindow ( &esContext, "Engine Structure in Development", Globals::screenWidth, Globals::screenHeight, ES_WINDOW_RGB | ES_WINDOW_DEPTH);
+	Init(&esContext);
+	esRegisterDrawFunc ( &esContext, Draw );
+	esRegisterUpdateFunc(&esContext, Update);
+	esRegisterKeyFunc ( &esContext, Key);
+	esMainLoop ( &esContext );
+	//releasing OpenGL resources
+	CleanUp();
+	//identifying memory leaks
+	MemoryDump();
+	printf("Press any key...\n");
+	_getch();
+	return 0;
+}
+

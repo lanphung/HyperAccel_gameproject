@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Game_release|Win32">
+      <Configuration>Game_release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="test_config|Win32">
+      <Configuration>test_config</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FC024EC8-32F4-4657-A2CB-14D2B3A931F8}</ProjectGuid>
+    <RootNamespace>TrainingFramework</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectName>Core</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='test_config|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Game_release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='test_config|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Game_release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.21005.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)</OutDir>
+    <IntDir>$(Configuration)</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Game_release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)</OutDir>
+    <IntDir>$(Configuration)</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='test_config|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)</OutDir>
+    <IntDir>$(Configuration)</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)GameProject\ProjectTest;$(SolutionDir)Include\SFML;$(SolutionDir)Lib;$(SolutionDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>libEGL.lib;libGLESv2.lib;sfml-audio-d.lib;freetype.lib;Box2D-d.lib;SDL2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Game_release|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)GameProject\ProjectTest;$(SolutionDir)Include\SFML;$(SolutionDir)Lib;$(SolutionDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>libEGL.lib;libGLESv2.lib;sfml-audio-d.lib;freetype.lib;Box2D.lib;SDL2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(SolutionDir)\GameProject\ProjectTest;$(SolutionDir)Include\SFML;$(SolutionDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>$(SolutionDir)Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libEGL.lib;libGLESv2.lib;sfml-audio.lib;freetype.lib;Box2D.lib;SDL2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='test_config|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(SolutionDir)GameProject\ProjectTest;$(SolutionDir)Include\SFML;$(SolutionDir)Lib;$(SolutionDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>$(SolutionDir)Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libEGL.lib;libGLESv2.lib;sfml-audio-d.lib;freetype.lib;Box2D.lib;SDL2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Include\pugixml-1.9\src\pugixml.cpp" />
+    <ClCompile Include="CButton.cpp" />
+    <ClCompile Include="Emitter.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameMusic.cpp" />
+    <ClCompile Include="GameSound.cpp" />
+    <ClCompile Include="j1PerfTimer.cpp" />
+    <ClCompile Include="KeyManager.cpp" />
+    <ClCompile Include="Lights.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="p2Log.cpp" />
+    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="ParticlePool.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="PhysicsEngine.cpp" />
+    <ClCompile Include="ProjectTest\boss.cpp" />
+    <ClCompile Include="ProjectTest\Box2DSceneManager.cpp" />
+    <ClCompile Include="ProjectTest\Bullet.cpp" />
+    <ClCompile Include="ProjectTest\bulletboss.cpp" />
+    <ClCompile Include="ProjectTest\BulletNewenemy.cpp" />
+    <ClCompile Include="ProjectTest\BulletType1.cpp" />
+    <ClCompile Include="ProjectTest\Collision.cpp" />
+    <ClCompile Include="ProjectTest\Enemy.cpp" />
+    <ClCompile Include="ProjectTest\EnemyCircle.cpp" />
+    <ClCompile Include="ProjectTest\EnemyRectangle.cpp" />
+    <ClCompile Include="ProjectTest\Item.cpp" />
+    <ClCompile Include="ProjectTest\ItemBom.cpp" />
+    <ClCompile Include="ProjectTest\ItemHp.cpp" />
+    <ClCompile Include="ProjectTest\LazerTower.cpp" />
+    <ClCompile Include="ProjectTest\MainCharacter.cpp" />
+    <ClCompile Include="ProjectTest\Missile.cpp" />
+    <ClCompile Include="ProjectTest\NewEnemy.cpp" />
+    <ClCompile Include="ProjectTest\ObjectPhysic.cpp" />
+    <ClCompile Include="ProjectTest\UpgradeBullet.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SoundEngine.cpp" />
+    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="StateManager.cpp" />
+    <ClCompile Include="TextRender.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Shaders.cpp" />
+    <ClCompile Include="TouchManager.cpp" />
+    <ClCompile Include="WVP.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Include\pugixml-1.9\src\pugiconfig.hpp" />
+    <ClInclude Include="..\Include\pugixml-1.9\src\pugixml.hpp" />
+    <ClInclude Include="CButton.h" />
+    <ClInclude Include="define.h" />
+    <ClInclude Include="Emitter.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameMusic.h" />
+    <ClInclude Include="GameSound.h" />
+    <ClInclude Include="Globals.h" />
+    <ClInclude Include="j1PerfTimer.h" />
+    <ClInclude Include="KeyManager.h" />
+    <ClInclude Include="Lights.h" />
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="p2Log.h" />
+    <ClInclude Include="p2Point.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticlePool.h" />
+    <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="PhysicsEngine.h" />
+    <ClInclude Include="ProjectTest\boss.h" />
+    <ClInclude Include="ProjectTest\Box2DSceneManager.h" />
+    <ClInclude Include="ProjectTest\Bullet.h" />
+    <ClInclude Include="ProjectTest\bulletboss.h" />
+    <ClInclude Include="ProjectTest\BulletNewenemy.h" />
+    <ClInclude Include="ProjectTest\BulletType1.h" />
+    <ClInclude Include="ProjectTest\Collision.h" />
+    <ClInclude Include="ProjectTest\define.h" />
+    <ClInclude Include="ProjectTest\DetectEnemy.h" />
+    <ClInclude Include="ProjectTest\enemy.h" />
+    <ClInclude Include="ProjectTest\EnemyCircle.h" />
+    <ClInclude Include="ProjectTest\EnemyRectangle.h" />
+    <ClInclude Include="ProjectTest\Item.h" />
+    <ClInclude Include="ProjectTest\ItemBom.h" />
+    <ClInclude Include="ProjectTest\ItemHp.h" />
+    <ClInclude Include="ProjectTest\lazertower.h" />
+    <ClInclude Include="ProjectTest\MainCharacter.h" />
+    <ClInclude Include="ProjectTest\Missile.h" />
+    <ClInclude Include="ProjectTest\NewEnemy.h" />
+    <ClInclude Include="ProjectTest\ObjectPhysic.h" />
+    <ClInclude Include="ProjectTest\UpgradeBullet.h" />
+    <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Shaders.h" />
+    <ClInclude Include="SoundEngine.h" />
+    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="StateManager.h" />
+    <ClInclude Include="TextRender.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="TouchManager.h" />
+    <ClInclude Include="Vertex.h" />
+    <ClInclude Include="WVP.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Readme.doc" />
+    <None Include="..\Resources\Shaders\BGShaderFS.fs" />
+    <None Include="..\Resources\Shaders\BGShaderVS.vs" />
+    <None Include="..\Resources\Shaders\BlendShader.fs" />
+    <None Include="..\Resources\Shaders\BlendShader.vs" />
+    <None Include="..\Resources\Shaders\ParticleShaderFS.fs" />
+    <None Include="..\Resources\Shaders\ParticleShaderVS.vs" />
+    <None Include="..\Resources\Shaders\SpriteShaderFS.fs" />
+    <None Include="..\Resources\Shaders\SpriteShaderVS.vs" />
+    <None Include="..\Resources\Shaders\textFS.fs" />
+    <None Include="..\Resources\Shaders\textVS.vs" />
+    <None Include="..\Resources\Shaders\TitlesShaderFS.fs" />
+    <None Include="..\Resources\Shaders\TitlesShaderVS.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utilities\Utilities.vcxproj">
+      <Project>{0d44529e-f7dd-4454-8ead-9afd857f53b4}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\Resources\psystem_config.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Resources\Managers\Box2D_SM.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

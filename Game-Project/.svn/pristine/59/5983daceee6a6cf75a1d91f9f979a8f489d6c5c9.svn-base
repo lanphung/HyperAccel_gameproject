@@ -1,0 +1,29 @@
+#include "Enemy.h"
+
+Enemy::Enemy()
+{
+	
+}
+
+Enemy::~Enemy()
+{
+
+}
+
+vector<b2Vec2> Enemy::trajectory =
+{
+	b2Vec2(2.0f,0.0f),
+	b2Vec2(-2.0,0.0f),
+	b2Vec2(0.0f,2.0f),
+	b2Vec2(0.0f,-2.0f),
+	b2Vec2(-2.0f,-2.0f),
+	b2Vec2(2.0f,2.0f),
+	b2Vec2(2.0f,-2.0f),
+	b2Vec2(-2.0f,2.0f)
+};
+
+void Enemy::Update(b2World* world)
+{
+	m_body->SetLinearVelocity(Enemy::trajectory.at(rand() % Enemy::trajectory.size()));
+	//m_body->SetLinearVelocity(b2Vec2(-5.0f, 5.0f));
+}

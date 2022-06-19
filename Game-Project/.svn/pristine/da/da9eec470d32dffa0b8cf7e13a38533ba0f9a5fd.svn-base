@@ -1,0 +1,147 @@
+#include "Object.h"
+
+Object::Object()
+{
+
+}
+
+Object::~Object()
+{
+
+}
+
+void Object::Update(Camera* myCamera)
+{
+	Matrix PerspectiveMat, ScaleMat, RotMat, RotXMat, RotYMat, RotZMat, TransMat;
+	RotXMat.SetRotationX(Rot.x); RotYMat.SetRotationY(Rot.y); RotZMat.SetRotationZ(Rot.z);
+	RotMat = RotZMat * RotXMat * RotYMat;
+	ScaleMat.SetScale(Scale.x, Scale.y, Scale.z);
+	TransMat.SetTranslation(Pos.x, Pos.y, Pos.z);
+	WorldMat = ScaleMat * RotMat * TransMat;
+	myCamera->SetTransMat();
+	myCamera->SetRotationMat();
+	ViewMat = myCamera->getrTransMat() * myCamera->getRotMat().Transpose();
+	GLfloat aspect = Globals::screenWidth / Globals::screenHeight;
+	PerspectiveMat.SetPerspective(myCamera->FOV, aspect, myCamera->Near, myCamera->Far);
+	WVP =  WorldMat * ViewMat * PerspectiveMat;
+}
+
+void Object::ModelInit()
+{
+	glGenBuffers(1, &vboId);
+	glBindBuffer(GL_ARRAY_BUFFER, vboId);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*ResourceManager::GetInstance()->Models.at(ModelID)->VerticesCount, ResourceManager::GetInstance()->Models.at(ModelID)->Vertices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glGenBuffers(1, &iboId);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLint)*ResourceManager::GetInstance()->Models.at(ModelID)->IndicesCount, ResourceManager::GetInstance()->Models.at(ModelID)->Idx, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	Shaders* theShader = ResourceManager::GetInstance()->ShadersList.at(ShaderID);
+	int ShaderStatus = theShader->Init(theShader->fileVS, theShader->fileFS);
+}
+void Object::Init()
+{
+	glGenTextures(TexturesCount, TexId);
+	for (int it = 0; it < TexturesCount; it++)
+	{
+		Texture* theTexture = ResourceManager::GetInstance()->Textures[Texturelist[it]];
+		glBindTexture(GL_TEXTURE_2D, TexId[it]);
+		int iWidth, iHeight, bpp;
+		char *imageData = LoadTGA(theTexture->Tex, &iWidth, &iHeight, &bpp);
+		if (bpp == 24) {
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, iWidth, iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+		}
+		else {
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+		}
+		delete[] imageData;
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	}
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Object::Draw(int ObjID, Camera* myCamera)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, vboId);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
+	Shaders* theShader = ResourceManager::GetInstance()->ShadersList.at(ShaderID);
+	glUseProgram(theShader->program);
+	for (int it = 0; it < TexturesCount; it++)
+	{
+		Texture* theTexture = ResourceManager::GetInstance()->Textures[Texturelist[it]];
+		glActiveTexture(GL_TEXTURE0 + it);
+		glBindTexture(GL_TEXTURE_2D, TexId[it]);
+		glUniform1i(theShader->iTextureLoc[it], it);
+	}
+	if (theShader->positionAttribute != -1)
+	{
+		glEnableVertexAttribArray(theShader->positionAttribute);
+		glVertexAttribPointer(theShader->positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), POS_OFFSET);
+	}
+	if (theShader->uvAttribute != -1)
+	{
+
+		glEnableVertexAttribArray(theShader->uvAttribute);
+		glVertexAttribPointer(theShader->uvAttribute, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), POS_OFFSET + UV_OFFSET);
+	}
+	///////////////
+	glUniformMatrix4fv(theShader->wvpMatLoc, 1, GL_FALSE, &WVP.m[0][0]);
+	glUniformMatrix4fv(theShader->wMatLoc, 1, GL_FALSE, &WorldMat.m[0][0]);
+	glUniformMatrix4fv(theShader->vMatLoc, 1, GL_FALSE, &ViewMat.m[0][0]);
+	glUniform1f(theShader->uTimeLoc, u_Time);
+	glUniform3f(theShader->camPosloc, myCamera->Position.x, myCamera->Position.y, myCamera->Position.z);
+	glUniform1i(theShader->iSpriteFrameLoc, currentFrame); // Loads frame index
+	//////////////
+	glDrawElements(GL_TRIANGLES, ResourceManager::GetInstance()->Models.at(ModelID)->IndicesCount, GL_UNSIGNED_INT, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+void Object::SetPosition(float x, float y)
+{
+	Pos.x = x;
+	Pos.y = y;
+}
+
+void Object::SetRotation(float z)
+{
+	Rot.z = z;
+}
+void Object::MoveForward()
+{
+	Vector2 target;
+	target.x = Pos.x + 0.3*cos(Rot.z);
+	target.y = Pos.y + 0.3*sin(Rot.z);
+	SetPosition(target.x, target.y);
+}
+
+void Object::MoveBackward()
+{
+	Vector2 target;
+	target.x = Pos.x - 0.3*cos(Rot.z);
+	target.y = Pos.y - 0.3*sin(Rot.z);
+	SetPosition(target.x, target.y);
+}
+
+void Object::MoveLeft()
+{
+	SetPosition(Pos.x - 0.3, Pos.y);
+}
+
+void Object::MoveRight()
+{
+	SetPosition(Pos.x + 0.3, Pos.y);
+}
+
+void Object::RotLeft()
+{
+	SetRotation(Rot.z-0.2);
+}
+
+void Object::RotRight()
+{
+	SetRotation(Rot.z+ 0.2);
+}
